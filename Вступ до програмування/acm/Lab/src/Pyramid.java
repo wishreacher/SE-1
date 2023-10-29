@@ -18,7 +18,7 @@ import acm.program.GraphicsProgram;
 public class Pyramid extends GraphicsProgram {
     private final int BRICK_WIDTH = 40;
     private final int BRICK_HEIGHT = 20;
-    private int BRICKS_IN_BASE = 7;
+    private int BRICKS_IN_BASE = 13;
     public void run() {
         int pyramidWidth = BRICK_WIDTH * BRICKS_IN_BASE;
 

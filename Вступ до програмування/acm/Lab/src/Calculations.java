@@ -16,6 +16,9 @@
         якщо n не парне, помножимой його на 3 і додамо 1
         продовжувати цей процес поки n не буде дорівнювати 1
         Напишіть програму, що реалізує вказаний алгоритм і наочно проілюструє його виконання. В кінці обов'язково повідомити кількість кроків.
+
+        File: Calculations.java
+        Author: Федорич Володимир
  */
 
 import acm.program.ConsoleProgram;
@@ -34,6 +37,7 @@ public class Calculations extends ConsoleProgram {
         }
     }
 
+    //prints menu
     public void printMenu(){
         getConsole().clear();
         println("Enter the corresponding number for needed function: ");
@@ -93,11 +97,11 @@ public class Calculations extends ConsoleProgram {
 
     //reduce a given number to 1 and calculate number of steps
     public void reduction(){
-        int n = readInt("Enter a positive natural number");
+        int n = readInt("Enter a positive natural number: ");
         int steps = 0;
 
         while(n <= 0){
-            n = readInt("This is not a positive natural number");
+            n = readInt("This is not a positive natural number: ");
         }
 
         while(n != 1){

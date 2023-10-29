@@ -15,7 +15,7 @@ public class Hierarchy extends GraphicsProgram {
     int windowWidth;
     int windowHeight;
     public void run() {
-        setSize(600, 700);
+        setSize(900, 500);
         windowWidth = getWidth();
         windowHeight = getHeight();
         double mainClassWidth = windowWidth * 0.4;
@@ -44,12 +44,11 @@ public class Hierarchy extends GraphicsProgram {
 
     //draws 3 elements which are connected by arrows to the main element
     private void drawDependantElements(double mainClassX, double mainClassY, double mainClassWidth, double mainClassHeight){
-        String[] dependentClassNames = {"Class 1", "Class 2", "Class 3"};
         double classWidth = windowWidth * 0.2;
         double classHeight = windowHeight * 0.2;
         double classSpacing = windowWidth * 0.15;
 
-        double x = (windowWidth - (classWidth * dependentClassNames.length + classSpacing * (dependentClassNames.length - 1))) / 2;
+        double x = (windowWidth - (classWidth * 3 + classSpacing * 2)) / 2;
         double y = mainClassY + mainClassHeight + 20;
 
         for (int i = 0; i < 3; i++) {

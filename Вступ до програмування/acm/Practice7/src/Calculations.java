@@ -180,7 +180,7 @@ public class Calculations extends ConsoleProgram {
         }
         return result;
     }
-
+    
     //handles restarting program and starting over
     private void exitOptions(){
         println(""); //skips the line

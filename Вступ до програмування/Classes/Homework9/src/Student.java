@@ -11,15 +11,14 @@
     У Вас мають бути різні конструктори класів
     (наприклад, порожній; тільки ПІБ; та  повний - з усіма параметрами)
  */
-
 public class Student {
     /**
      * Student class constructor with no parameters. Sets name and faculty to default values
      * @autor Fedorych Volodymyr
      */
     public Student(){
-        name = "No name";
-        faculty = "No faculty";
+        this.name = "No name";
+        this.faculty = "No faculty";
     }
 
     /**
@@ -50,7 +49,7 @@ public class Student {
         return faculty;
     }
 
-    private void setYear(int newYear) {
+    public void setYear(int newYear) {
         year = newYear;
     }
 

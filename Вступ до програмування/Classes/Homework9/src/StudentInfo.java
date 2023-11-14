@@ -18,6 +18,7 @@ public class StudentInfo extends ConsoleProgram {
     public void run(){
         println();
 
+        /*
         //testing default constructor
         Student defaultStudent = new Student();
 
@@ -25,8 +26,22 @@ public class StudentInfo extends ConsoleProgram {
         Student Ivan = new Student("Ivan", "of Applied Mathematics");
         Student Petro = new Student("Petro", "of Philosophy");
 
+
         println(defaultStudent);
         println(Ivan);
         println(Petro);
+        Petro.setYear(2);
+        println(Petro);
+         */
+
+        StudentFI defaultStudent = new StudentFI();
+        StudentFI Volodymyr = new StudentFI("Volodymyr", "of SE",
+                "weed");
+        StudentFI Misha = new StudentFI("Misha", "of SE", "REVO");
+        println(defaultStudent);
+        println(Volodymyr);
+        println(Misha);
+        Volodymyr.increaseDepressionLevel();
+        println(Volodymyr.getName() + "'s depression level increased to " + Volodymyr.getDepressionLevel());
     }
 }

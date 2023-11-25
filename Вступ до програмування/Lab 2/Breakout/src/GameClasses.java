@@ -1,13 +1,12 @@
-import acm.graphics.GLine;
+import acm.graphics.G3DRect;
 import acm.graphics.GOval;
 import acm.graphics.GRect;
-import acm.graphics.GRoundRect;
 
 import java.awt.*;
 
 public class GameClasses
 {
-    public static class ball
+    public static class Ball
     {
         private double posX;
         private double posY;
@@ -35,7 +34,7 @@ public class GameClasses
                 this.direction -= (2 * Math.PI);
         }
 
-        public ball(double posX, double posY, double size)
+        public Ball(double posX, double posY, double size)
         {
             this.posX = posX;
             this.posY = posY;
@@ -71,39 +70,11 @@ public class GameClasses
                 //Variables.won = false;
             }
         }
-    }
 
-    public static class Bricks {
-        private static int brick_count = Variables.rows * Variables.bricksPerRow;
+        public void reset() {
+//            ballInstance.setLocation(Variables.appWidth/2 - Variables.radius,
+//                    Variables.appWidth/2 - Variables.radius);
 
-        public static GRect setBrick(double x, double y, int nrow) {
-            GRect brick = new GRect(Variables.brickWidth, Variables.brickHeight);
-            brick.setFilled(true);
-            brick.setLocation(x, y);
-
-            int color_rows = Variables.rows / 5;
-            nrow /= color_rows;
-
-            if (nrow > 4)
-                nrow -= 5;
-
-            if (nrow == 0)
-                brick.setColor(Color.decode("#d50000"));
-            else if (nrow == 1)
-                brick.setColor(Color.decode("#f57f17"));
-            else if (nrow == 2)
-                brick.setColor(Color.decode("#ffea00"));
-            else if (nrow == 3)
-                brick.setColor(Color.decode("#558b2f"));
-            else if (nrow == 4)
-                brick.setColor(Color.decode("#00b8d4"));
-            return brick;
-        }
-
-        public static void deleteBrick(){
-            --brick_count;
-            if(brick_count <= 0)
-                Variables.gameOver = true;
         }
     }
 
@@ -149,6 +120,11 @@ public class GameClasses
                 posX -= Math.cos(angle) * 3;
 
             platformInstance.setLocation(posX, posY);
+        }
+
+        public void reset() {
+            platformInstance.setLocation((Variables.appHeight-15)/2 - Variables.paddleWidth/2,
+                    (Variables.appHeight - (Variables.paddleHeight * 2) - 60));
         }
     }
 }

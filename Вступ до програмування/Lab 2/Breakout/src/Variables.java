@@ -1,4 +1,8 @@
+import acm.graphics.GImage;
 import acm.util.RandomGenerator;
+
+import java.awt.*;
+import java.util.ArrayList;
 
 public class Variables {
     public static RandomGenerator rg = new RandomGenerator();
@@ -20,6 +24,14 @@ public class Variables {
     public static final int radius = 10;
     public static double mouseX;
     public static double mouseY;
+    public static boolean won = false;
+
+    public static Color backgroundColor = Color.BLACK;
+
+    public static int brickCount = rows * bricksPerRow;
+    public static int score;
     public static boolean gameOver = false;
-    public static boolean won = true;
+    public static int lives = 9;
+    //public static GImage[] heartsArray = new GImage[100];
+    public static ArrayList<GImage> hearts = new ArrayList<>();
 }

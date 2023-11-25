@@ -2,26 +2,31 @@ import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.program.GraphicsProgram;
+import acm.util.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /* TODO
-    * Recreate menu - change colors, text, etc.
-    * Add lives
-    * Add lose condition
-    * Add win condition
+    * Create menu
+    * Set up winning and losing strings
     * Add 3 different levels
     * Add bounce sound
     * Add symmetry axis
  */
 public class Breakout extends GraphicsProgram {
-    GameClasses.Platform platform = new GameClasses.Platform((Variables.appHeight-15)/2 - Variables.paddleWidth/2,
+    Paddle paddle = new Paddle((Variables.appWidth-15)/2 - Variables.paddleWidth/2,
             (Variables.appHeight - (Variables.paddleHeight * 2) - 60) , Variables.paddleWidth, Variables.paddleHeight);
-    GameClasses.Ball ball = new GameClasses.Ball(platform.getPlatformInstance().getX()+
-            platform.getPlatformInstance().getWidth()/2 - Variables.radius/2,
-            platform.getPlatformInstance().getY() - Variables.radius - 15, Variables.radius);
+    Ball ball = new Ball(paddle.getX()+
+            paddle.getWidth()/2 - Variables.radius/2,
+            paddle.getY() - Variables.radius - 15, Variables.radius);
     GLabel scoreLabel = new GLabel("Score: " + Variables.score, 20, Variables.appHeight - 60);
 
     private boolean gameStarted = false;
@@ -40,7 +45,7 @@ public class Breakout extends GraphicsProgram {
             //checkCollisions();
             ball.move();
             checkCollisions();
-            platform.move();
+            paddle.move();
             handleBallPresence();
             pause(1);
         }
@@ -54,7 +59,7 @@ public class Breakout extends GraphicsProgram {
     private void handleBallPresence() {
         if(!isBallOnScreen()){
             resetBall();
-            platform.reset();
+            paddle.reset();
             if(Variables.lives <= 0){
                 Variables.gameOver = true;
             }
@@ -71,10 +76,10 @@ public class Breakout extends GraphicsProgram {
         addKeyListeners();
 
         // draw platform
-        add(platform.getPlatformInstance());
+        add(paddle);
 
         // draw ball
-        add(ball.getBallInstance());
+        add(ball);
 
         // draw bricks
         drawBricks();
@@ -87,16 +92,16 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void checkCollisions() {
-        double bx1 = ball.getBallInstance().getX() - 1;
-        double by1 = ball.getBallInstance().getY() - 1;
+        double bx1 = ball.getX() - 1;
+        double by1 = ball.getY() - 1;
 
-        double bx2 = ball.getBallInstance().getX() + ball.getBallInstance().getWidth() - 1;
+        double bx2 = ball.getX() + ball.getWidth() - 1;
         double by2 = by1;
 
-        double bx3 = ball.getBallInstance().getX() + 1;
-        double by3 = ball.getBallInstance().getY() + ball.getBallInstance().getHeight() + 1;
+        double bx3 = ball.getX() + 1;
+        double by3 = ball.getY() + ball.getHeight() + 1;
 
-        double bx4 = ball.getBallInstance().getX() + ball.getBallInstance().getWidth() + 1;
+        double bx4 = ball.getX() + ball.getWidth() + 1;
         double by4 = by3;
 
         GObject obj = null;
@@ -115,8 +120,7 @@ public class Breakout extends GraphicsProgram {
         }
 
         boolean side = Variables.rg.nextBoolean(0.5);
-
-        if(obj == platform.getPlatformInstance()) { // todo прибрати повтори
+        if(obj == paddle) { // todo прибрати повтори
             double direction = side == true ? Math.PI/4 : Math.PI/2;
             ball.setDirection(direction);
         } else if(obj instanceof Brick){
@@ -127,7 +131,7 @@ public class Breakout extends GraphicsProgram {
             scoreLabel.setLabel("Score: " + Variables.score);
             remove(obj);
         }
-        else if(obj != null){
+        else if(obj != null && !(obj instanceof GLabel) && !(obj instanceof GImage)){
             double direction = side == true ? Math.PI/1.1 : Math.PI/2.2;
             ball.setDirection(direction);
         }
@@ -144,9 +148,10 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void drawBricks() {
-        for (int x = 0; x < Variables.bricksPerRow; ++x)
+        int baseOffset = (Variables.appWidth - Variables.bricksPerRow * (Variables.brickWidth + Variables.brickDelta));
+        for (int x = 0; x < Variables.bricksPerRow; x++)
             for (int y = 0; y < Variables.rows; ++y) {
-                int bx = x * (Variables.brickWidth + Variables.brickDelta);
+                int bx = baseOffset + x * (Variables.brickWidth + Variables.brickDelta);
                 int by = Variables.brickYOffset + y * (Variables.brickHeight + Variables.brickDelta);
                 add(new Brick(bx, by, y));
             }
@@ -167,15 +172,15 @@ public class Breakout extends GraphicsProgram {
     }
 
     private boolean isBallOnScreen(){
-        return ball.getBallInstance().getY() < Variables.appHeight;
+        return ball.getY() < Variables.appHeight;
     }
 
     private void resetBall(){
-        remove(ball.getBallInstance());
-        ball = new GameClasses.Ball(platform.getPlatformInstance().getX()+
-                platform.getPlatformInstance().getWidth()/2 - Variables.radius/2,
-                platform.getPlatformInstance().getY() - Variables.radius - 15, Variables.radius);
-        add(ball.getBallInstance());
+        remove(ball);
+        ball = new Ball(paddle.getX()+
+                paddle.getWidth()/2 - Variables.radius/2,
+                paddle.getY() - Variables.radius - 15, Variables.radius);
+        add(ball);
         --Variables.lives;
         Variables.hearts.get(Variables.lives).setVisible(false);
         Variables.hearts.remove(Variables.lives);
@@ -196,4 +201,5 @@ public class Breakout extends GraphicsProgram {
 Вирішення - перестворити мʼячик замість того щоб рухати його.
 Проблема - мʼячик застрягає в платформі і стінах.
 Проблема - мʼячик вдаряється об текст
+Вирішення - ігнорувати цей випадок у перевірці колізій
  */

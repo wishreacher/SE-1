@@ -1,5 +1,6 @@
 import acm.graphics.GImage;
 import acm.util.RandomGenerator;
+import acm.util.SoundClip;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -34,4 +35,6 @@ public class Variables {
     public static int lives = 9;
     //public static GImage[] heartsArray = new GImage[100];
     public static ArrayList<GImage> hearts = new ArrayList<>();
+
+    public static SoundClip bounceSound = new SoundClip("../sounds/bounce.au");
 }

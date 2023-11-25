@@ -9,7 +9,6 @@ public class Brick extends GRect {
         super(x, y, Variables.brickWidth, Variables.brickHeight);
 
         setFilled(true);
-        setLocation(x, y);
 
         int colorRows = Variables.rows / 5;
         nrow /= colorRows;

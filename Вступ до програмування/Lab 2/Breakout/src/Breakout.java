@@ -2,6 +2,14 @@ import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.program.GraphicsProgram;
+import acm.util.*;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -10,9 +18,8 @@ import java.awt.event.MouseEvent;
     * Create menu
     * Set up winning and losing strings
     * Add 3 different levels
+    * Add bounce sound
     * Add symmetry axis
-    * Javadoc documentation
-    * Cleanup
  */
 public class Breakout extends GraphicsProgram {
     Paddle paddle = new Paddle((Variables.appWidth-15)/2 - Variables.paddleWidth/2,
@@ -24,13 +31,7 @@ public class Breakout extends GraphicsProgram {
 
     private boolean gameStarted = false;
     public void run() {
-        this.setSize(Variables.appWidth, Variables.appHeight);
-        this.setBackground(Variables.backgroundColor);
-
-        // init key listeners
-        addMouseListeners();
-        addKeyListeners();
-
+        initialize();
         Menu menu = new Menu();
         add(menu.getStartMenuGObject());
 
@@ -39,9 +40,6 @@ public class Breakout extends GraphicsProgram {
 
         // remove menu
         remove(menu.getStartMenuGObject());
-
-        initialize();
-
         // game loop
         while(!Variables.gameOver) {
             //checkCollisions();
@@ -49,7 +47,7 @@ public class Breakout extends GraphicsProgram {
             checkCollisions();
             paddle.move();
             handleBallPresence();
-            pause(Variables.tickrate);
+            pause(1);
         }
         if(Variables.won){
             win();
@@ -69,6 +67,14 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void initialize(){
+        this.setSize(Variables.appWidth, Variables.appHeight);
+        this.setBackground(Variables.backgroundColor);
+
+
+        // init key listeners
+        addMouseListeners();
+        addKeyListeners();
+
         // draw platform
         add(paddle);
 
@@ -132,36 +138,8 @@ public class Breakout extends GraphicsProgram {
     }
 
     public void keyPressed(KeyEvent e) {
-        if (gameStarted) {
-            return;
-        }
-
-        switch (e.getKeyCode()) {
-            case 49 -> {
-                Variables.lives = 5;
-                Variables.rows = 1;
-                Variables.bricksPerRow = 1;
-                Variables.tickrate = 2;
-                Variables.level = 1;
-                gameStarted = true;
-            }
-            case 50 -> {
-                Variables.lives = 3;
-                Variables.rows = 1;
-                Variables.bricksPerRow = 1;
-                Variables.tickrate = 2;
-                Variables.level = 2;
-                gameStarted = true;
-            }
-            case 51 -> {
-                Variables.lives = 1;
-                Variables.rows = 1;
-                Variables.bricksPerRow = 1;
-                Variables.tickrate = 2;
-                Variables.level = 3;
-                gameStarted = true;
-            }
-        }
+        if(!gameStarted && e.getKeyCode() == 32)
+            gameStarted = true;
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -170,15 +148,7 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void drawBricks() {
-        //TODO it doesn't work as intended
-        int totalBricksWidth = Variables.bricksPerRow * Variables.brickWidth + (Variables.bricksPerRow - 1) * Variables.brickDelta;
-        int totalBricksHeight = Variables.rows * Variables.brickHeight + (Variables.rows - 1) * Variables.brickDelta;
-        if (totalBricksWidth > Variables.appWidth || totalBricksHeight > Variables.appHeight) {
-            Variables.bricksPerRow = Variables.appWidth / (Variables.brickWidth + Variables.brickDelta);
-            totalBricksWidth = Variables.bricksPerRow * Variables.brickWidth + (Variables.bricksPerRow - 1) * Variables.brickDelta;
-            totalBricksHeight = Variables.rows * Variables.brickHeight + (Variables.rows - 1) * Variables.brickDelta;
-        }
-        int baseOffset = (Variables.appWidth - totalBricksWidth) / 2;
+        int baseOffset = (Variables.appWidth - Variables.bricksPerRow * (Variables.brickWidth + Variables.brickDelta));
         for (int x = 0; x < Variables.bricksPerRow; x++)
             for (int y = 0; y < Variables.rows; ++y) {
                 int bx = baseOffset + x * (Variables.brickWidth + Variables.brickDelta);
@@ -187,21 +157,11 @@ public class Breakout extends GraphicsProgram {
             }
     }
 
-    private void win(){/*
-        int timer = 5;
+    private void win(){
         GLabel winLabel = new GLabel("You won!", Variables.appWidth/2, Variables.appHeight/2);
-        GLabel timerLabel = new GLabel("Next level starts in:" + timer, Variables.appWidth/2, Variables.appHeight/2);
         winLabel.setFont("TimesNewRoman-20");
         winLabel.setColor(Color.WHITE);
         add(winLabel);
-        add(timerLabel);
-        while(timer >= 0){
-            timerLabel.setLabel("Next level starts in:" + timer);
-            pause(1000);
-            --timer;
-        }
-        exit();
-        */
     }
 
     private void lose(){

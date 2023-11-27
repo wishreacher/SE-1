@@ -11,9 +11,9 @@ public class Variables {
     public static final int appHeight = 800;
     public static final int paddleWidth = 100;
     public static final int paddleHeight = 10;
-    public static int bricksPerRow = 3;
+    public static final int bricksPerRow = 5;
 
-    public static int rows = 10;
+    public static final int rows = 10;
     public static final int brickDelta = 10;
 
     public static final int brickWidth =
@@ -35,8 +35,6 @@ public class Variables {
     public static int lives = 9;
     //public static GImage[] heartsArray = new GImage[100];
     public static ArrayList<GImage> hearts = new ArrayList<>();
-    public static SoundClip bounceSound = new SoundClip("../sounds/bounce.au");
-    public static int tickrate = 3;
 
-    public static int level = 1;
+    public static SoundClip bounceSound = new SoundClip("../sounds/bounce.au");
 }

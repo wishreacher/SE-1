@@ -12,7 +12,7 @@ public class Graphics {
     }
 
     public static void drawBricks(GCanvas canvas){
-        int baseOffset = (Variables.appWidth - Variables.bricksPerRow * (Variables.brickWidth + Variables.brickDelta));
+        int baseOffset = 0;
         for (int x = 0; x < Variables.bricksPerRow; x++)
             for (int y = 0; y < Variables.rows; ++y) {
                 int bx = baseOffset + x * (Variables.brickWidth + Variables.brickDelta);

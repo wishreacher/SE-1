@@ -15,11 +15,8 @@ import java.awt.event.MouseEvent;
     * Win condition fix
  */
 public class Breakout extends GraphicsProgram {
-    Paddle paddle = new Paddle((Variables.appWidth-15)/2 - Variables.paddleWidth/2,
-            (Variables.appHeight - (Variables.paddleHeight * 2) - 60) , Variables.paddleWidth, Variables.paddleHeight);
-    Ball ball = new Ball(paddle.getX()+
-            paddle.getWidth()/2 - Variables.radius/2,
-            paddle.getY() - Variables.radius - 15, Variables.radius);
+    Paddle paddle;
+    Ball ball;
     GLabel scoreLabel = new GLabel("Score: " + Variables.score, 20, Variables.appHeight - 60);
 
     private boolean gameStarted = false;
@@ -75,9 +72,21 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void initialize(){
+        if(paddle != null){
+            remove(paddle);
+        }
+        if(ball != null){
+            remove(ball);
+        }
+
         // draw platform
+        paddle = new Paddle((Variables.appWidth-15)/2 - Variables.paddleWidth/2,
+                (Variables.appHeight - (Variables.paddleHeight * 2) - 60) , Variables.paddleWidth, Variables.paddleHeight);
         add(paddle);
 
+        ball = new Ball(paddle.getX()+
+                paddle.getWidth()/2 - Variables.radius/2,
+                paddle.getY() - Variables.radius - 15, Variables.radius);
         // draw ball
         add(ball);
 
@@ -145,6 +154,10 @@ public class Breakout extends GraphicsProgram {
             if(e.getKeyCode() == 82){
                 Variables.shouldRestart = true;
             }
+        } else if(Variables.gameOver && Variables.won){
+            if(e.getKeyCode() == 78){
+                Variables.shouldOpenLevel = true;
+            }
         }
     }
 
@@ -158,6 +171,23 @@ public class Breakout extends GraphicsProgram {
         winLabel.setFont("TimesNewRoman-20");
         winLabel.setColor(Color.WHITE);
         add(winLabel);
+
+        GLabel nextLevelLabel = new GLabel("Press N to go to next level", Variables.appWidth/2, Variables.appHeight/2 + 50);
+        nextLevelLabel.setFont("TimesNewRoman-20");
+        nextLevelLabel.setColor(Color.WHITE);
+        add(nextLevelLabel);
+
+        while(!Variables.shouldOpenLevel){
+            pause(5);
+        }
+        Variables.level++;
+        setDefaultValuesForLevel(Variables.level);
+        if(Variables.level > 3){
+            exit();
+        } else{
+            removeAll();
+            Variables.shouldOpenMenu = false;
+        }
     }
 
     private void lose() {
@@ -192,27 +222,19 @@ public class Breakout extends GraphicsProgram {
     private void initValues(int key){
         switch(key){
             case 49:
-                Variables.rows = 5;
-                Variables.bricksPerRow = 1;
-                Variables.lives = 1;
+                setDefaultValuesForLevel(1);
                 break;
             case 50:
-                Variables.rows = 10;
-                Variables.bricksPerRow = 5;
-                Variables.lives = 1;
+                setDefaultValuesForLevel(2);
                 break;
             case 51:
-                Variables.rows = 10;
-                Variables.bricksPerRow = 10;
-                Variables.lives = 1;
+                setDefaultValuesForLevel(3);
                 break;
         }
-
     }
 
     private void openLevel(int i){
         initValues(i);
-        Variables.level = i;
         gameStarted = true;
     }
 
@@ -224,6 +246,31 @@ public class Breakout extends GraphicsProgram {
         scoreLabel.setLabel("Score: ");
         Variables.shouldRestart = false;
         gameStarted = false;
+        Variables.shouldOpenLevel = false;
+        Variables.lives = Variables.level;
+    }
+
+    private void setDefaultValuesForLevel(int level){
+        switch(level) {
+            case 1:
+                Variables.rows = 5;
+                Variables.bricksPerRow = 1;
+                Variables.lives = 1;
+                Variables.level = 1;
+                break;
+            case 2:
+                Variables.rows = 10;
+                Variables.bricksPerRow = 1;
+                Variables.lives = 2;
+                Variables.level = 2;
+                break;
+            case 3:
+                Variables.rows = 15;
+                Variables.bricksPerRow = 1;
+                Variables.lives = 3;
+                Variables.level = 3;
+                break;
+        }
     }
 }
 

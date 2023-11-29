@@ -17,7 +17,7 @@ public class Variables {
     public static final int brickDelta = 10;
 
     public static final int brickWidth =
-            ((appWidth - 15) - (bricksPerRow - 1) * brickDelta) / bricksPerRow;
+            appWidth;
     public static final int brickHeight = 8;
 
     public static final int brickYOffset = 70;
@@ -41,4 +41,6 @@ public class Variables {
     public static boolean shouldOpenMenu = true;
 
     public static boolean shouldRestart = false;
+
+    public static boolean shouldOpenLevel = false;
 }

@@ -21,7 +21,6 @@ public class Variables {
     public static final int brickHeight = 8;
 
     public static final int brickYOffset = 70;
-
     public static final int radius = 10;
     public static double mouseX;
     public static double mouseY;
@@ -29,7 +28,9 @@ public class Variables {
 
     public static Color backgroundColor = Color.BLACK;
 
-    public static int brickCount = rows * bricksPerRow;
+    public static int level = 1;
+
+    public static int brickCount;
     public static int score;
     public static boolean gameOver = false;
     public static int lives = 9;
@@ -37,4 +38,7 @@ public class Variables {
     public static ArrayList<GImage> hearts = new ArrayList<>();
 
     public static SoundClip bounceSound = new SoundClip("../sounds/bounce.au");
+    public static boolean shouldOpenMenu = true;
+
+    public static boolean shouldRestart = false;
 }

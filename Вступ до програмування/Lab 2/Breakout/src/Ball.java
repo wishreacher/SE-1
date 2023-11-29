@@ -1,3 +1,4 @@
+import acm.graphics.GObject;
 import acm.graphics.GOval;
 import acm.util.SoundClip;
 
@@ -63,9 +64,9 @@ public class Ball extends GOval
         }
     }
 
-    public void reset() {
-//            ballInstance.setLocation(Variables.appWidth/2 - Variables.radius,
-//                    Variables.appWidth/2 - Variables.radius);
-
+    public boolean isBallOnScreen(){
+        return getY() < Variables.appHeight;
     }
+
+
 }

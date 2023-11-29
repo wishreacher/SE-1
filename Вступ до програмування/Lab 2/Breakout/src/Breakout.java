@@ -27,37 +27,45 @@ public class Breakout extends GraphicsProgram {
         this.setSize(Variables.appWidth, Variables.appHeight);
         this.setBackground(Variables.backgroundColor);
 
-        // init key listeners
-        addMouseListeners();
-        addKeyListeners();
+        //game loop
+        while(true){
+            addMouseListeners();
+            addKeyListeners();
 
-        Menu menu = new Menu();
-        add(menu.getStartMenuGObject());
+            resetValues();
 
-        // wait 4 game to start
-        while(!gameStarted) { pause(5); }
-        initialize();
+            if(Variables.shouldOpenMenu){
+                Menu menu = new Menu();
+                add(menu.getStartMenuGObject());
 
-        // remove menu
-        remove(menu.getStartMenuGObject());
-        // game loop
-        while(!Variables.gameOver) {
-            //checkCollisions();
-            ball.move();
-            checkCollisions();
-            paddle.move();
-            handleBallPresence();
-            pause(1);
-        }
-        if(Variables.won){
-            win();
-        } else {
-            lose();
+                while(!gameStarted) { pause(5); }
+                initialize();
+
+                remove(menu.getStartMenuGObject());
+            } else{
+                initValues(Variables.level);
+                initialize();
+            }
+
+            while(!Variables.gameOver) {
+                //checkCollisions();
+                ball.move();
+                checkCollisions();
+                paddle.move();
+                handleBallPresence();
+                pause(1);
+            }
+
+            if(Variables.won){
+                win();
+            } else {
+                lose();
+            }
         }
     }
 
     private void handleBallPresence() {
-        if(!isBallOnScreen()){
+        if(!ball.isBallOnScreen()){
             resetBall();
             paddle.reset();
             if(Variables.lives <= 0){
@@ -73,10 +81,10 @@ public class Breakout extends GraphicsProgram {
         // draw ball
         add(ball);
 
-        // draw bricks
-        drawBricks();
+        Variables.brickCount = Variables.rows * Variables.bricksPerRow;
 
-        drawHearts();
+        Graphics.drawBricks(getGCanvas());
+        Graphics.drawHearts(getGCanvas());
 
         add(scoreLabel);
         scoreLabel.setFont("TimesNewRoman-20");
@@ -131,40 +139,18 @@ public class Breakout extends GraphicsProgram {
 
     public void keyPressed(KeyEvent e) {
         if(!gameStarted && e.getKeyCode() >= 49 && e.getKeyCode() <= 51){
-            switch(e.getKeyCode()){
-                case 49:
-                    Variables.rows = 5;
-                    Variables.bricksPerRow = 5;
-                    Variables.lives = 5;
-                    break;
-                case 50:
-                    Variables.rows = 10;
-                    Variables.bricksPerRow = 5;
-                    Variables.lives = 3;
-                    break;
-                case 51:
-                    Variables.rows = 10;
-                    Variables.bricksPerRow = 10;
-                    Variables.lives = 1;
-                    break;
+            openLevel(e.getKeyCode());
+        }
+        if(Variables.gameOver && !Variables.won){
+            if(e.getKeyCode() == 82){
+                Variables.shouldRestart = true;
             }
-            gameStarted = true;
         }
     }
 
     public void mouseMoved(MouseEvent e) {
         Variables.mouseX = e.getX();
         Variables.mouseY = e.getY();
-    }
-
-    private void drawBricks() {
-        int baseOffset = (Variables.appWidth - Variables.bricksPerRow * (Variables.brickWidth + Variables.brickDelta));
-        for (int x = 0; x < Variables.bricksPerRow; x++)
-            for (int y = 0; y < Variables.rows; ++y) {
-                int bx = baseOffset + x * (Variables.brickWidth + Variables.brickDelta);
-                int by = Variables.brickYOffset + y * (Variables.brickHeight + Variables.brickDelta);
-                add(new Brick(bx, by, y));
-            }
     }
 
     private void win(){
@@ -174,15 +160,22 @@ public class Breakout extends GraphicsProgram {
         add(winLabel);
     }
 
-    private void lose(){
-        GLabel loseLabel = new GLabel("You lost!", Variables.appWidth/2, Variables.appHeight/2);
+    private void lose() {
+        GLabel loseLabel = new GLabel("You lost!", Variables.appWidth / 2, Variables.appHeight / 2);
         loseLabel.setFont("TimesNewRoman-20");
         loseLabel.setColor(Color.WHITE);
         add(loseLabel);
-    }
 
-    private boolean isBallOnScreen(){
-        return ball.getY() < Variables.appHeight;
+        GLabel restartLabel = new GLabel("Press R to restart", Variables.appWidth / 2, Variables.appHeight / 2 + 50);
+        restartLabel.setFont("TimesNewRoman-20");
+        restartLabel.setColor(Color.WHITE);
+        add(restartLabel);
+
+        while(!Variables.shouldRestart){
+            pause(5);
+        }
+        removeAll();
+        Variables.shouldOpenMenu = false;
     }
 
     private void resetBall(){
@@ -196,13 +189,41 @@ public class Breakout extends GraphicsProgram {
         Variables.hearts.remove(Variables.lives);
     }
 
-    private void drawHearts(){
-        for(int i = 0; i < Variables.lives; ++i){
-            GImage heart = new GImage("../images/heart.png");
-            heart.scale(0.1, 0.1);
-            add(heart, i * 25, 0);
-            Variables.hearts.add(heart);
+    private void initValues(int key){
+        switch(key){
+            case 49:
+                Variables.rows = 5;
+                Variables.bricksPerRow = 1;
+                Variables.lives = 1;
+                break;
+            case 50:
+                Variables.rows = 10;
+                Variables.bricksPerRow = 5;
+                Variables.lives = 1;
+                break;
+            case 51:
+                Variables.rows = 10;
+                Variables.bricksPerRow = 10;
+                Variables.lives = 1;
+                break;
         }
+
+    }
+
+    private void openLevel(int i){
+        initValues(i);
+        Variables.level = i;
+        gameStarted = true;
+    }
+
+    private void resetValues(){
+        Variables.won = false;
+        Variables.gameOver = false;
+        Variables.score = 0;
+        Variables.hearts.clear();
+        scoreLabel.setLabel("Score: ");
+        Variables.shouldRestart = false;
+        gameStarted = false;
     }
 }
 

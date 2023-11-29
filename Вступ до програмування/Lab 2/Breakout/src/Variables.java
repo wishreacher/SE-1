@@ -43,4 +43,9 @@ public class Variables {
     public static boolean shouldRestart = false;
 
     public static boolean shouldOpenLevel = false;
+
+    public static SoundClip brickSound = new SoundClip("../sounds/break.wav");
+    public static SoundClip loseLifeSound = new SoundClip("../sounds/loseLife.wav");
+    public static SoundClip winSound = new SoundClip("../sounds/win.wav");
+    public static SoundClip loseSound = new SoundClip("../sounds/lose.wav");
 }

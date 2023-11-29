@@ -9,10 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /* TODO
-    * Create menu
-    * Add 3 different levels
     * Add more collision points
-    * Win condition fix
+    * win and lose fx
+    * brick spawn fix
  */
 public class Breakout extends GraphicsProgram {
     Paddle paddle;
@@ -167,6 +166,9 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void win(){
+        Variables.winSound.setVolume(1);
+        Variables.winSound.play();
+
         GLabel winLabel = new GLabel("You won!", Variables.appWidth/2, Variables.appHeight/2);
         winLabel.setFont("TimesNewRoman-20");
         winLabel.setColor(Color.WHITE);
@@ -191,6 +193,9 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void lose() {
+        Variables.loseSound.setVolume(1);
+        Variables.loseSound.play();
+
         GLabel loseLabel = new GLabel("You lost!", Variables.appWidth / 2, Variables.appHeight / 2);
         loseLabel.setFont("TimesNewRoman-20");
         loseLabel.setColor(Color.WHITE);
@@ -208,13 +213,18 @@ public class Breakout extends GraphicsProgram {
         Variables.shouldOpenMenu = false;
     }
 
-    private void resetBall(){
+    private void resetBall(){//TODO split logic
         remove(ball);
         ball = new Ball(paddle.getX()+
                 paddle.getWidth()/2 - Variables.radius/2,
                 paddle.getY() - Variables.radius - 15, Variables.radius);
         add(ball);
         --Variables.lives;
+        if(Variables.lives > 0){
+            Variables.loseLifeSound.setVolume(1);
+            Variables.loseLifeSound.play();
+        }
+
         Variables.hearts.get(Variables.lives).setVisible(false);
         Variables.hearts.remove(Variables.lives);
     }

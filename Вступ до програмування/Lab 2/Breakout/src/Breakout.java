@@ -2,12 +2,6 @@ import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.program.GraphicsProgram;
-import acm.util.*;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 import java.awt.*;
@@ -16,10 +10,9 @@ import java.awt.event.MouseEvent;
 
 /* TODO
     * Create menu
-    * Set up winning and losing strings
     * Add 3 different levels
-    * Add bounce sound
-    * Add symmetry axis
+    * Add more collision points
+    * Win condition fix
  */
 public class Breakout extends GraphicsProgram {
     Paddle paddle = new Paddle((Variables.appWidth-15)/2 - Variables.paddleWidth/2,
@@ -31,12 +24,19 @@ public class Breakout extends GraphicsProgram {
 
     private boolean gameStarted = false;
     public void run() {
-        initialize();
+        this.setSize(Variables.appWidth, Variables.appHeight);
+        this.setBackground(Variables.backgroundColor);
+
+        // init key listeners
+        addMouseListeners();
+        addKeyListeners();
+
         Menu menu = new Menu();
         add(menu.getStartMenuGObject());
 
         // wait 4 game to start
         while(!gameStarted) { pause(5); }
+        initialize();
 
         // remove menu
         remove(menu.getStartMenuGObject());
@@ -67,14 +67,6 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void initialize(){
-        this.setSize(Variables.appWidth, Variables.appHeight);
-        this.setBackground(Variables.backgroundColor);
-
-
-        // init key listeners
-        addMouseListeners();
-        addKeyListeners();
-
         // draw platform
         add(paddle);
 
@@ -138,8 +130,26 @@ public class Breakout extends GraphicsProgram {
     }
 
     public void keyPressed(KeyEvent e) {
-        if(!gameStarted && e.getKeyCode() == 32)
+        if(!gameStarted && e.getKeyCode() >= 49 && e.getKeyCode() <= 51){
+            switch(e.getKeyCode()){
+                case 49:
+                    Variables.rows = 5;
+                    Variables.bricksPerRow = 5;
+                    Variables.lives = 5;
+                    break;
+                case 50:
+                    Variables.rows = 10;
+                    Variables.bricksPerRow = 5;
+                    Variables.lives = 3;
+                    break;
+                case 51:
+                    Variables.rows = 10;
+                    Variables.bricksPerRow = 10;
+                    Variables.lives = 1;
+                    break;
+            }
             gameStarted = true;
+        }
     }
 
     public void mouseMoved(MouseEvent e) {

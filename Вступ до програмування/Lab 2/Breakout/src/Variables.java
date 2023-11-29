@@ -11,9 +11,9 @@ public class Variables {
     public static final int appHeight = 800;
     public static final int paddleWidth = 100;
     public static final int paddleHeight = 10;
-    public static final int bricksPerRow = 5;
+    public static int bricksPerRow = 5;
 
-    public static final int rows = 10;
+    public static int rows = 10;
     public static final int brickDelta = 10;
 
     public static final int brickWidth =

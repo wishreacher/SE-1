@@ -1,13 +1,17 @@
 import acm.graphics.GRect;
-
 import java.awt.*;
 
 public class Brick extends GRect {
     private int weight = 0;
 
+    /**
+     * Constructor for the Brick class. Sets the color and weight of the brick based on row.
+     * @param x
+     * @param y
+     * @param nrow
+     */
     Brick(double x, double y, int nrow) {
         super(x, y, Variables.brickWidth, Variables.brickHeight);
-
         setFilled(true);
 
         int colorRows = Math.max(Variables.rows / 5, 1);
@@ -39,8 +43,11 @@ public class Brick extends GRect {
         }
     }
 
+    /**
+     * Called when a brick is hit. Decrements the brick count, plays a sound, and adds to the score.
+     */
     public void onDeleteBrick(){
-        --Variables.brickCount;
+        Variables.brickCount--;
         Variables.brickSound.setVolume(0.5);
         Variables.brickSound.play();
         Variables.score += weight;

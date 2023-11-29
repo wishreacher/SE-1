@@ -26,6 +26,12 @@ public class Ball extends GOval
         Variables.bounceSound.play();
     }
 
+    /**
+     * Default constructor
+     * @param posX - x coordinate of the ball
+     * @param posY - y coordinate of the ball
+     * @param size - size of the ball
+     */
     public Ball(double posX, double posY, double size)
     {
         super(posX, posY, size, size);
@@ -39,20 +45,25 @@ public class Ball extends GOval
         velocity = 2;
     }
 
+    /**
+     * Moves the ball by multiplying the velocity by the sin and cos of the direction
+     */
     public void move()
     {
         checkCollisions();
         posX += Math.sin(direction) * velocity;
         posY -= Math.cos(direction) * velocity;
-        //ballInstance.move(posX, posY);
         setLocation(posX, posY);
     }
 
+    /**
+     * Calculates the angle of reflection randomly
+     */
     public void checkCollisions()
     {
         if (posX <= 0 || posX + size >= Variables.appWidth - 15 || posY <= 0)
         {
-            direction += Math.PI / 8;
+            direction += Math.PI / 8 + Variables.rg.nextDouble(-0.05, 0.05);
 
             if(direction >= 2 * Math.PI){
                 direction -= (2 * Math.PI);
@@ -62,10 +73,16 @@ public class Ball extends GOval
         }
     }
 
+    /**
+     * Checks if the ball is on the screen
+     */
     public boolean isBallOnScreen(){
         return getY() < Variables.appHeight;
     }
 
+    /**
+     * Public direction getter
+     */
     public double getDirection() {
         return direction;
     }

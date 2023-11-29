@@ -2,32 +2,30 @@ import acm.graphics.GImage;
 import acm.graphics.GLabel;
 import acm.graphics.GObject;
 import acm.program.GraphicsProgram;
-
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-/* TODO
-    * написати що керувати можна мишкою
- */
 public class Breakout extends GraphicsProgram {
     Paddle paddle;
     Ball ball;
     GLabel scoreLabel = new GLabel("Score: " + Variables.score, 20, Variables.appHeight - 60);
 
     private boolean gameStarted = false;
+
+    /**
+     * Handles program initialization and game loop. Runs infinitely operating with params changed during the game.
+     */
     public void run() {
         this.setSize(Variables.appWidth, Variables.appHeight);
         this.setBackground(Variables.backgroundColor);
 
-        //game loop
         while(true){
             addMouseListeners();
             addKeyListeners();
-
             resetValues();
 
+            //handle game replayability
             if(Variables.shouldOpenMenu){
                 Menu menu = new Menu();
                 add(menu.getStartMenuGObject());
@@ -41,6 +39,7 @@ public class Breakout extends GraphicsProgram {
                 initialize();
             }
 
+            //game loop
             while(!Variables.gameOver) {
                 ball.move();
                 handleCollisions();
@@ -49,6 +48,7 @@ public class Breakout extends GraphicsProgram {
                 pause(2);
             }
 
+            //win condition check
             if(Variables.won){
                 win();
             } else {
@@ -57,6 +57,9 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    /**
+     * If ball is not on screen, resets it and decrements lives.
+     */
     private void handleBallPresence() {
         if(!ball.isBallOnScreen()){
             resetBall();
@@ -68,7 +71,11 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    /**
+     * Respawns ball and paddle, resets score, lives and bricks.
+     */
     private void initialize(){
+        //remove old paddle and ball
         if(paddle != null){
             remove(paddle);
         }
@@ -76,28 +83,35 @@ public class Breakout extends GraphicsProgram {
             remove(ball);
         }
 
-        // draw platform
+        //draw platform
         paddle = new Paddle((Variables.appWidth-15)/2 - Variables.paddleWidth/2,
                 (Variables.appHeight - (Variables.paddleHeight * 2) - 60) , Variables.paddleWidth, Variables.paddleHeight);
         add(paddle);
 
+        //draw ball
         ball = new Ball(paddle.getX()+
                 paddle.getWidth()/2 - Variables.radius/2,
                 paddle.getY() - Variables.radius - 15, Variables.radius);
-        // draw ball
         add(ball);
 
         Variables.brickCount = Variables.rows * Variables.bricksPerRow;
 
+        //draw hearts and bricks
         Graphics.drawBricks(getGCanvas());
         Graphics.drawHearts(getGCanvas());
 
+        //draw score
         add(scoreLabel);
         scoreLabel.setFont("TimesNewRoman-20");
         scoreLabel.setColor(Color.WHITE);
     }
 
+    /**
+     * Handles collisions with paddle, bricks and walls via checking if 8 points of ball are colliding with something.
+     * These point are located on the edges and corners of ball.
+     */
     private void handleCollisions() {
+        //define coordinates of 8 points
         double bx1 = ball.getX() - 1;
         double by1 = ball.getY() - 1;
 
@@ -124,6 +138,7 @@ public class Breakout extends GraphicsProgram {
 
         GObject obj = null;
 
+        //check if any of 8 points are colliding with something
         if(getElementAt(bx1, by1) != null) {
             obj = getElementAt(bx1, by1);
         }
@@ -157,6 +172,8 @@ public class Breakout extends GraphicsProgram {
             ball.setDirection(direction);
 
          */
+
+        //check what object is colliding with ball and change direction accordingly
         if(obj == paddle) {
             double direction = ball.getDirection() > Math.PI ? Math.PI/4 : 3*Math.PI/4;
             ball.setDirection(direction);
@@ -167,15 +184,17 @@ public class Breakout extends GraphicsProgram {
             x.onDeleteBrick();
             scoreLabel.setLabel("Score: " + Variables.score);
             remove(obj);
-        }
-        //old version
-        else if(obj != null && !(obj instanceof GLabel) && !(obj instanceof GImage)){
+        } else if(obj != null && !(obj instanceof GLabel) && !(obj instanceof GImage)){
             double direction = side == true ? Math.PI/1.1 : Math.PI/2.2;
             direction += Variables.rg.nextBoolean(0.5) ? 0.05 : -0.05; // Add a slight random variation
             ball.setDirection(direction);
         }
     }
 
+    /**
+     * Handles key presses.
+     * @param e key event
+     */
     public void keyPressed(KeyEvent e) {
         if(!gameStarted && e.getKeyCode() >= 49 && e.getKeyCode() <= 51){
             openLevel(e.getKeyCode());
@@ -194,11 +213,19 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    /**
+     * Handles mouse movement.
+     * @param e mouse event
+     */
     public void mouseMoved(MouseEvent e) {
         Variables.mouseX = e.getX();
         Variables.mouseY = e.getY();
     }
 
+    /**
+     * Handles win condition visualisation and level transition.
+     * If level is 3, proceeds to final screen.
+     */
     private void win(){
         if(Variables.level == 3){
             endGame();
@@ -208,6 +235,7 @@ public class Breakout extends GraphicsProgram {
 
             Graphics.addWinText(getGCanvas());
 
+            //wait for click to open next level
             while(!Variables.shouldOpenLevel){
                 pause(5);
             }
@@ -218,6 +246,9 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    /**
+     * Handles endgame screen.
+     */
     private void endGame(){
         Variables.shouldOpenMenu = false;
         removeAll();
@@ -228,6 +259,9 @@ public class Breakout extends GraphicsProgram {
         removeAll();
     }
 
+    /**
+     * Handles lose condition visualisation and restart.
+     */
     private void lose() {
         Variables.loseSound.setVolume(1);
         Variables.loseSound.play();
@@ -241,6 +275,9 @@ public class Breakout extends GraphicsProgram {
         Variables.shouldOpenMenu = false;
     }
 
+    /**
+     * Respawns ball.
+     */
     private void resetBall(){
         remove(ball);
         ball = new Ball(paddle.getX()+
@@ -249,6 +286,9 @@ public class Breakout extends GraphicsProgram {
         add(ball);
     }
 
+    /**
+     * Decrements lives and removes heart from screen.
+     */
     private void decrementHearts(){
         --Variables.lives;
         if(Variables.lives > 0){
@@ -260,6 +300,10 @@ public class Breakout extends GraphicsProgram {
         Variables.hearts.remove(Variables.lives);
     }
 
+    /**
+     * Sets default values for level.
+     * @param key level number
+     */
     private void initValues(int key){
         switch(key){
             case 49:
@@ -274,11 +318,18 @@ public class Breakout extends GraphicsProgram {
         }
     }
 
+    /**
+     * Opens level.
+     * @param i level number
+     */
     private void openLevel(int i){
         initValues(i);
         gameStarted = true;
     }
 
+    /**
+     * Resets game-handling variables that have been changed during the game to default values.
+     */
     private void resetValues(){
         Variables.won = false;
         Variables.gameOver = false;
@@ -291,24 +342,28 @@ public class Breakout extends GraphicsProgram {
         Variables.lives = Variables.level;
     }
 
+    /**
+     * Handles starting params for each level.
+     * @param level level number
+     */
     private void setDefaultValuesForLevel(int level){
         switch(level) {
             case 1:
                 Variables.rows = 1;
                 Variables.bricksPerRow = 1;
-                Variables.lives = 1;
+                Variables.lives = 5;
                 Variables.level = 1;
                 break;
             case 2:
-                Variables.rows = 2;
-                Variables.bricksPerRow = 2;
-                Variables.lives = 2;
+                Variables.rows = 5;
+                Variables.bricksPerRow = 5;
+                Variables.lives = 3;
                 Variables.level = 2;
                 break;
             case 3:
-                Variables.rows = 1;
-                Variables.bricksPerRow = 1;
-                Variables.lives = 3;
+                Variables.rows = 10;
+                Variables.bricksPerRow = 10;
+                Variables.lives = 1;
                 Variables.level = 3;
                 break;
         }

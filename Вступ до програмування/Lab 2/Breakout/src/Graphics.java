@@ -5,6 +5,10 @@ import acm.graphics.GLabel;
 import java.awt.*;
 
 public class Graphics {
+    /**
+     * Draws the visual representation of lives
+     * @param canvas the canvas to draw on
+     */
     public static void drawHearts(GCanvas canvas){
         for(int i = 0; i < Variables.lives; ++i){
             GImage heart = new GImage("../images/heart.png");
@@ -14,10 +18,14 @@ public class Graphics {
         }
     }
 
+    /**
+     * Draws bricks
+     * @param canvas the canvas to draw on
+     */
     public static void drawBricks(GCanvas canvas){
         double totalBricksWidth = Variables.bricksPerRow * (Variables.brickWidth + Variables.brickDelta) - Variables.brickDelta;
         if (totalBricksWidth > Variables.appWidth) {
-            Variables.bricksPerRow = (int) ((Variables.appWidth + Variables.brickDelta) / (Variables.brickWidth + Variables.brickDelta));
+            Variables.bricksPerRow = ((Variables.appWidth + Variables.brickDelta) / (Variables.brickWidth + Variables.brickDelta));
             totalBricksWidth = Variables.bricksPerRow * (Variables.brickWidth + Variables.brickDelta) - Variables.brickDelta;
         }
         double startX = (Variables.appWidth - totalBricksWidth) / 2;
@@ -29,6 +37,10 @@ public class Graphics {
             }
     }
 
+    /**
+     * Draws win-level text
+     * @param canvas the canvas to draw on
+     */
     public static void addWinText(GCanvas canvas){
         GLabel winLabel = new GLabel("You won!");
         winLabel.setLocation((Variables.appWidth - winLabel.getWidth())/2, Variables.appHeight/2);
@@ -43,6 +55,10 @@ public class Graphics {
         canvas.add(nextLevelLabel);
     }
 
+    /**
+     * Draws lose-level text
+     * @param canvas the canvas to draw on
+     */
     public static void addLoseText(GCanvas canvas) {
         GLabel loseLabel = new GLabel("You lost!");
         loseLabel.setLocation((Variables.appWidth - loseLabel.getWidth())/2, Variables.appHeight/2);
@@ -57,6 +73,10 @@ public class Graphics {
         canvas.add(restartLabel);
     }
 
+    /**
+     * Draws endgame text
+     * @param canvas the canvas to draw on
+     */
     public static void addEndgameUI(GCanvas canvas){
         GLabel endgameLabel = new GLabel("You beat the game! Love you <3");
         endgameLabel.setFont("TimesNewRoman-24");

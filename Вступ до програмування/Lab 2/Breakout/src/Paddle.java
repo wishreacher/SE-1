@@ -8,6 +8,13 @@ public class Paddle extends GRect{
     private double width;
     private double trgX;
 
+    /**
+     * Default constructor
+     * @param posX - x coordinate of the paddle
+     * @param posY - y coordinate of the paddle
+     * @param width - width of the paddle
+     * @param height - height of the paddle
+     */
     public Paddle(double posX, double posY, double width, double height)
     {
         super(posX, posY, width, height);
@@ -20,9 +27,11 @@ public class Paddle extends GRect{
         setColor(Color.WHITE);
     }
 
+    /**
+     * Moves the paddle smoothly towards the mouse
+     */
     public void move()
     {
-        //checkCollisions();
         trgX = Variables.mouseX - width/2;
 
         double angle = Math.atan((70) / (trgX - this.posX));
@@ -37,6 +46,9 @@ public class Paddle extends GRect{
         setLocation(posX, posY);
     }
 
+    /**
+     * Resets the paddle to the center of the screen
+     */
     public void reset() {
         setLocation((Variables.appHeight-15)/2 - Variables.paddleWidth/2,
                 (Variables.appHeight - (Variables.paddleHeight * 2) - 60));

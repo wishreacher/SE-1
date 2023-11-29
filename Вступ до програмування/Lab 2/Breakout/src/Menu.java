@@ -9,23 +9,24 @@ import java.awt.*;
 
 public class Menu extends GraphicsProgram {
     double menuHeight = Variables.appHeight / 2;
-    GRect winBackground = new GRect(0, Variables.brickDelta, Variables.appWidth , menuHeight/4);
-    GRect loseBackground = new GRect(0, Variables.brickYOffset, Variables.appWidth , menuHeight/4);
-
     GLabel startLabel = new GLabel("Breakout");
-    GLabel startDescription = new GLabel("Press 1, 2 or 3 to select level");
-    GLabel winText = new GLabel("You won!");
-    GLabel loseText= new GLabel("You lost.");
-
+    GLabel startDescription = new GLabel("Use mouse to control the paddle. Press 1, 2 or 3 to select level");
     GLabel authorLabel = new GLabel("Made by: Fedorych Volodymyr");
-
     GCompound startMenu = new GCompound();
+
+    /**
+     * Constructor for the Menu class
+     */
     public Menu(){
         int kegel = (int)((Variables.appWidth/2.7) * (menuHeight/2.5) / 1000);
 
         menuTextSetup(kegel);
     }
 
+    /**
+     * Method that sets up the menu text
+     * @param kegel - font size
+     */
     private void menuTextSetup(int kegel) {
         startLabel.setFont("TimesNewRoman-" + kegel);
         double startLabel_x = 20;
@@ -48,6 +49,9 @@ public class Menu extends GraphicsProgram {
         startMenu.add(authorLabel);
     }
 
+    /**
+     * Menu getter
+     */
     public GObject getStartMenuGObject(){
         return startMenu;
     }

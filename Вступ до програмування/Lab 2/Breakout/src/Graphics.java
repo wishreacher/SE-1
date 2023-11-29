@@ -56,4 +56,23 @@ public class Graphics {
         restartLabel.setColor(Color.WHITE);
         canvas.add(restartLabel);
     }
+
+    public static void addEndgameUI(GCanvas canvas){
+        GLabel endgameLabel = new GLabel("You beat the game! Love you <3");
+        endgameLabel.setFont("TimesNewRoman-24");
+        endgameLabel.setLocation((Variables.appWidth - endgameLabel.getWidth())/2, Variables.appHeight/2 - 200);
+        endgameLabel.setColor(Color.PINK);
+        canvas.add(endgameLabel);
+
+        GImage cat = new GImage("../images/cat.gif");
+        cat.scale(0.5, 0.5);
+        cat.setLocation((Variables.appWidth - cat.getWidth())/2, Variables.appHeight/2 - 175);
+        canvas.add(cat);
+
+        GLabel restartLabel = new GLabel("Press any key to open menu ^^");
+        restartLabel.setFont("TimesNewRoman-20");
+        restartLabel.setLocation((Variables.appWidth - restartLabel.getWidth())/2, Variables.appHeight/2 + 300);
+        restartLabel.setColor(Color.WHITE);
+        canvas.add(restartLabel);
+    }
 }

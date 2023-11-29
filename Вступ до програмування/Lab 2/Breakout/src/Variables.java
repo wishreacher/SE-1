@@ -15,7 +15,7 @@ public class Variables {
 
     public static int rows = 10;
     public static int brickDelta = 10;
-    public static int brickWidth = 50;
+    public static int brickWidth = 200;
     public static int brickHeight = 8;
     public static int brickYOffset = 70;
     public static final int radius = 10;
@@ -34,7 +34,7 @@ public class Variables {
     //public static GImage[] heartsArray = new GImage[100];
     public static ArrayList<GImage> hearts = new ArrayList<>();
 
-    public static SoundClip bounceSound = new SoundClip("../sounds/bounce.au");
+    public static SoundClip bounceSound = new SoundClip("../sounds/click.wav");
     public static boolean shouldOpenMenu = true;
 
     public static boolean shouldRestart = false;

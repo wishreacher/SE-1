@@ -36,7 +36,7 @@ public class Ball extends GOval
         setColor(Color.WHITE);
         setLocation(posX, posY);
         direction = Variables.rg.nextDouble(0.5, 2.51);
-        velocity = 1;
+        velocity = 2;
     }
 
     public void move()
@@ -66,5 +66,7 @@ public class Ball extends GOval
         return getY() < Variables.appHeight;
     }
 
-
+    public double getDirection() {
+        return direction;
+    }
 }

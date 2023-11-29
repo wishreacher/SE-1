@@ -41,7 +41,7 @@ public class Brick extends GRect {
 
     public void onDeleteBrick(){
         --Variables.brickCount;
-        Variables.brickSound.setVolume(1);
+        Variables.brickSound.setVolume(0.5);
         Variables.brickSound.play();
         Variables.score += weight;
         if(Variables.brickCount <= 0) {

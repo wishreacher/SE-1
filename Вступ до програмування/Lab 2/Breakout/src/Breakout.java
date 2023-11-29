@@ -9,8 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /* TODO
-    * brick spawn fix
-    * revisit ball bounce
+    * написати що керувати можна мишкою
  */
 public class Breakout extends GraphicsProgram {
     Paddle paddle;
@@ -47,7 +46,7 @@ public class Breakout extends GraphicsProgram {
                 handleCollisions();
                 paddle.move();
                 handleBallPresence();
-                pause(1);
+                pause(2);
             }
 
             if(Variables.won){
@@ -151,8 +150,15 @@ public class Breakout extends GraphicsProgram {
         }
 
         boolean side = Variables.rg.nextBoolean(0.5);
-        if(obj == paddle) {
+
+        //old code
+        /*if(obj == paddle) {
             double direction = side == true ? Math.PI/4 : Math.PI/2;
+            ball.setDirection(direction);
+
+         */
+        if(obj == paddle) {
+            double direction = ball.getDirection() > Math.PI ? Math.PI/4 : 3*Math.PI/4;
             ball.setDirection(direction);
         } else if(obj instanceof Brick){
             double direction = side == true ? Math.PI/1.1 : Math.PI/2.2;
@@ -162,8 +168,10 @@ public class Breakout extends GraphicsProgram {
             scoreLabel.setLabel("Score: " + Variables.score);
             remove(obj);
         }
+        //old version
         else if(obj != null && !(obj instanceof GLabel) && !(obj instanceof GImage)){
             double direction = side == true ? Math.PI/1.1 : Math.PI/2.2;
+            direction += Variables.rg.nextBoolean(0.5) ? 0.05 : -0.05; // Add a slight random variation
             ball.setDirection(direction);
         }
     }
@@ -181,6 +189,9 @@ public class Breakout extends GraphicsProgram {
                 Variables.shouldOpenLevel = true;
             }
         }
+        if(Variables.gameOver && Variables.won && Variables.level == 3){
+            Variables.shouldOpenMenu = true;
+        }
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -189,22 +200,32 @@ public class Breakout extends GraphicsProgram {
     }
 
     private void win(){
-        Variables.winSound.setVolume(1);
-        Variables.winSound.play();
-
-        Graphics.addWinText(getGCanvas());
-
-        while(!Variables.shouldOpenLevel){
-            pause(5);
-        }
-        Variables.level++;
-        setDefaultValuesForLevel(Variables.level);
-        if(Variables.level > 3){
-            exit();
+        if(Variables.level == 3){
+            endGame();
         } else{
+            Variables.winSound.setVolume(1);
+            Variables.winSound.play();
+
+            Graphics.addWinText(getGCanvas());
+
+            while(!Variables.shouldOpenLevel){
+                pause(5);
+            }
+            Variables.level++;
+            setDefaultValuesForLevel(Variables.level);
             removeAll();
             Variables.shouldOpenMenu = false;
         }
+    }
+
+    private void endGame(){
+        Variables.shouldOpenMenu = false;
+        removeAll();
+        Graphics.addEndgameUI(getGCanvas());
+        while(!Variables.shouldOpenMenu){
+            pause(5);
+        }
+        removeAll();
     }
 
     private void lose() {
@@ -274,19 +295,19 @@ public class Breakout extends GraphicsProgram {
         switch(level) {
             case 1:
                 Variables.rows = 1;
-                Variables.bricksPerRow = 30;
+                Variables.bricksPerRow = 1;
                 Variables.lives = 1;
                 Variables.level = 1;
                 break;
             case 2:
-                Variables.rows = 5;
-                Variables.bricksPerRow = 5;
+                Variables.rows = 2;
+                Variables.bricksPerRow = 2;
                 Variables.lives = 2;
                 Variables.level = 2;
                 break;
             case 3:
-                Variables.rows = 10;
-                Variables.bricksPerRow = 10;
+                Variables.rows = 1;
+                Variables.bricksPerRow = 1;
                 Variables.lives = 3;
                 Variables.level = 3;
                 break;

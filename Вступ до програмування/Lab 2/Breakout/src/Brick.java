@@ -10,7 +10,7 @@ public class Brick extends GRect {
 
         setFilled(true);
 
-        int colorRows = Variables.rows / 5;
+        int colorRows = Math.max(Variables.rows / 5, 1);
         nrow /= colorRows;
 
         if (nrow > 4) nrow -= 5;

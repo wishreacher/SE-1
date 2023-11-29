@@ -20,29 +20,10 @@ public class Menu extends GraphicsProgram {
     GLabel authorLabel = new GLabel("Made by: Fedorych Volodymyr");
 
     GCompound startMenu = new GCompound();
-    GCompound winMenu = new GCompound();
-    GCompound loseMenu = new GCompound();
     public Menu(){
         int kegel = (int)((Variables.appWidth/2.7) * (menuHeight/2.5) / 1000);
 
         menuTextSetup(kegel);
-        winUISetup(kegel);
-        loseUISetup(kegel);
-    }
-
-    private void loseUISetup(int kegel) {
-        loseBackground.setFilled(true);
-        loseBackground.setColor(Color.decode("#7b241c"));
-
-        loseText.setFont("TimesNewRoman-" + kegel);
-        double loseText_x = (Variables.appWidth - startLabel.getWidth() * 1.1);
-        double loseText_y = (menuHeight / 2) + Variables.brickYOffset + (startLabel.getAscent() / 2);
-        loseText.setLocation(loseText_x, loseText_y);
-        loseText.setColor(Color.decode("#fdfefe"));
-
-        loseBackground.setLocation(0, loseText_y - 2*(startLabel.getAscent()));
-        loseMenu.add(loseBackground);
-        loseMenu.add(loseText);
     }
 
     private void menuTextSetup(int kegel) {
@@ -67,29 +48,7 @@ public class Menu extends GraphicsProgram {
         startMenu.add(authorLabel);
     }
 
-    private void winUISetup(int kegel){
-        winBackground.setFilled(true);
-        winBackground.setColor(Color.decode("#117a65"));
-        
-        winText.setFont("TimesNewRoman-" + kegel);
-        double winText_x = (Variables.appWidth - startLabel.getWidth() * 1.1);
-        double winText_y = (menuHeight / 2) + Variables.brickYOffset + (startLabel.getAscent() / 2);
-        winText.setLocation(winText_x, winText_y);
-        winText.setColor(Color.decode("#fdfefe"));
-
-        winBackground.setLocation(0, (menuHeight / 2) + Variables.brickYOffset + (startLabel.getAscent() / 2) - 2*(startLabel.getAscent()));
-
-        winMenu.add(winBackground);
-        winMenu.add(winText);
-    }
-
     public GObject getStartMenuGObject(){
         return startMenu;
-    }
-    public GObject getWinMenuGObject(){
-        return winMenu;
-    }
-    public GObject getLoseMenuGObject(){
-        return loseMenu;
     }
 }

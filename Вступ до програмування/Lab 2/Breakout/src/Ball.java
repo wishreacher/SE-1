@@ -15,8 +15,6 @@ public class Ball extends GOval
 
     private double velocity;
 
-    public double getDirection(){ return direction; }
-
     public void setDirection(double direction)
     {
         this.direction += direction;

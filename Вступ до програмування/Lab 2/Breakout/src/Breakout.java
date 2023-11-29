@@ -9,9 +9,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /* TODO
-    * Add more collision points
-    * win and lose fx
     * brick spawn fix
+    * revisit ball bounce
  */
 public class Breakout extends GraphicsProgram {
     Paddle paddle;
@@ -44,9 +43,8 @@ public class Breakout extends GraphicsProgram {
             }
 
             while(!Variables.gameOver) {
-                //checkCollisions();
                 ball.move();
-                checkCollisions();
+                handleCollisions();
                 paddle.move();
                 handleBallPresence();
                 pause(1);
@@ -63,6 +61,7 @@ public class Breakout extends GraphicsProgram {
     private void handleBallPresence() {
         if(!ball.isBallOnScreen()){
             resetBall();
+            decrementHearts();
             paddle.reset();
             if(Variables.lives <= 0){
                 Variables.gameOver = true;
@@ -99,7 +98,7 @@ public class Breakout extends GraphicsProgram {
         scoreLabel.setColor(Color.WHITE);
     }
 
-    private void checkCollisions() {
+    private void handleCollisions() {
         double bx1 = ball.getX() - 1;
         double by1 = ball.getY() - 1;
 
@@ -111,6 +110,18 @@ public class Breakout extends GraphicsProgram {
 
         double bx4 = ball.getX() + ball.getWidth() + 1;
         double by4 = by3;
+
+        double bx5 = ball.getX();
+        double by5 = ball.getY();
+
+        double bx6 = ball.getX() + ball.getWidth();
+        double by6 = by5;
+
+        double bx7 = ball.getX();
+        double by7 = ball.getY() + ball.getHeight();
+
+        double bx8 = ball.getX() + ball.getWidth();
+        double by8 = by7;
 
         GObject obj = null;
 
@@ -126,9 +137,21 @@ public class Breakout extends GraphicsProgram {
         else if(getElementAt(bx4, by4) != null) {
             obj = getElementAt(bx4, by4);
         }
+        else if(getElementAt(bx5, by5) != null) {
+            obj = getElementAt(bx5, by5);
+        }
+        else if(getElementAt(bx6, by6) != null) {
+            obj = getElementAt(bx6, by6);
+        }
+        else if(getElementAt(bx7, by7) != null) {
+            obj = getElementAt(bx7, by7);
+        }
+        else if(getElementAt(bx8, by8) != null) {
+            obj = getElementAt(bx8, by8);
+        }
 
         boolean side = Variables.rg.nextBoolean(0.5);
-        if(obj == paddle) { // todo прибрати повтори
+        if(obj == paddle) {
             double direction = side == true ? Math.PI/4 : Math.PI/2;
             ball.setDirection(direction);
         } else if(obj instanceof Brick){
@@ -169,15 +192,7 @@ public class Breakout extends GraphicsProgram {
         Variables.winSound.setVolume(1);
         Variables.winSound.play();
 
-        GLabel winLabel = new GLabel("You won!", Variables.appWidth/2, Variables.appHeight/2);
-        winLabel.setFont("TimesNewRoman-20");
-        winLabel.setColor(Color.WHITE);
-        add(winLabel);
-
-        GLabel nextLevelLabel = new GLabel("Press N to go to next level", Variables.appWidth/2, Variables.appHeight/2 + 50);
-        nextLevelLabel.setFont("TimesNewRoman-20");
-        nextLevelLabel.setColor(Color.WHITE);
-        add(nextLevelLabel);
+        Graphics.addWinText(getGCanvas());
 
         while(!Variables.shouldOpenLevel){
             pause(5);
@@ -196,15 +211,7 @@ public class Breakout extends GraphicsProgram {
         Variables.loseSound.setVolume(1);
         Variables.loseSound.play();
 
-        GLabel loseLabel = new GLabel("You lost!", Variables.appWidth / 2, Variables.appHeight / 2);
-        loseLabel.setFont("TimesNewRoman-20");
-        loseLabel.setColor(Color.WHITE);
-        add(loseLabel);
-
-        GLabel restartLabel = new GLabel("Press R to restart", Variables.appWidth / 2, Variables.appHeight / 2 + 50);
-        restartLabel.setFont("TimesNewRoman-20");
-        restartLabel.setColor(Color.WHITE);
-        add(restartLabel);
+        Graphics.addLoseText(getGCanvas());
 
         while(!Variables.shouldRestart){
             pause(5);
@@ -213,12 +220,15 @@ public class Breakout extends GraphicsProgram {
         Variables.shouldOpenMenu = false;
     }
 
-    private void resetBall(){//TODO split logic
+    private void resetBall(){
         remove(ball);
         ball = new Ball(paddle.getX()+
                 paddle.getWidth()/2 - Variables.radius/2,
                 paddle.getY() - Variables.radius - 15, Variables.radius);
         add(ball);
+    }
+
+    private void decrementHearts(){
         --Variables.lives;
         if(Variables.lives > 0){
             Variables.loseLifeSound.setVolume(1);
@@ -263,20 +273,20 @@ public class Breakout extends GraphicsProgram {
     private void setDefaultValuesForLevel(int level){
         switch(level) {
             case 1:
-                Variables.rows = 5;
-                Variables.bricksPerRow = 1;
+                Variables.rows = 1;
+                Variables.bricksPerRow = 30;
                 Variables.lives = 1;
                 Variables.level = 1;
                 break;
             case 2:
-                Variables.rows = 10;
-                Variables.bricksPerRow = 1;
+                Variables.rows = 5;
+                Variables.bricksPerRow = 5;
                 Variables.lives = 2;
                 Variables.level = 2;
                 break;
             case 3:
-                Variables.rows = 15;
-                Variables.bricksPerRow = 1;
+                Variables.rows = 10;
+                Variables.bricksPerRow = 10;
                 Variables.lives = 3;
                 Variables.level = 3;
                 break;
@@ -285,9 +295,13 @@ public class Breakout extends GraphicsProgram {
 }
 
 /*
-Проблема - коли намагаюсь перевірити чи мʼяч поза екраном, перевірка спрацьовує кожен тік.
-Вирішення - перестворити мʼячик замість того щоб рухати його.
-Проблема - мʼячик застрягає в платформі і стінах.
-Проблема - мʼячик вдаряється об текст
-Вирішення - ігнорувати цей випадок у перевірці колізій
+    Проблема - коли намагаюсь перевірити чи мʼяч поза екраном, перевірка спрацьовує кожен тік.
+    Вирішення - перестворити мʼячик замість того щоб рухати його.
+    Проблема - мʼячик застрягає в платформі і стінах.
+    Проблема - мʼячик вдаряється об текст
+    Вирішення - ігнорувати цей випадок у перевірці колізій
+    Проблема - цеглинки не малюються якщо рядів менше пʼяти
+    Вирішення - через цей рядок вони завжди були чорними
+                nrow /= colorRows;
+
  */

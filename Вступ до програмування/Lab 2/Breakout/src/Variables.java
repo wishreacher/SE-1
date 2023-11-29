@@ -14,13 +14,10 @@ public class Variables {
     public static int bricksPerRow = 5;
 
     public static int rows = 10;
-    public static final int brickDelta = 10;
-
-    public static final int brickWidth =
-            appWidth;
-    public static final int brickHeight = 8;
-
-    public static final int brickYOffset = 70;
+    public static int brickDelta = 10;
+    public static int brickWidth = 50;
+    public static int brickHeight = 8;
+    public static int brickYOffset = 70;
     public static final int radius = 10;
     public static double mouseX;
     public static double mouseY;

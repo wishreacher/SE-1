@@ -42,7 +42,7 @@ public class Ball extends GOval
         setColor(Color.WHITE);
         setLocation(posX, posY);
         direction = Variables.rg.nextDouble(0.5, 2.51);
-        velocity = 2;
+        velocity = 0.7;
     }
 
     /**

@@ -29,6 +29,18 @@ public class Variables {
 
     public static int lives = 9;
 
+    public static int getLives() {
+        switch (level) {
+            case 1:
+                return 5;
+            case 2:
+                return 3;
+            case 3:
+                return 2;
+        }
+        return 0;
+    }
+
     public static ArrayList<GImage> hearts = new ArrayList<>();
     //--------------------BRICKS--------------------
     public static int bricksPerRow = 5;
@@ -37,15 +49,15 @@ public class Variables {
 
     public static int brickDelta = 10;
 
-    public static int brickWidth = 200;
+    public static int brickWidth = 75;
 
-    public static int brickHeight = 8;
+    public static int brickHeight = 25;
 
     public static int brickYOffset = 70;
 
     public static int brickCount;
     //--------------------BALL--------------------
-    public static final int radius = 10;
+    public static final int radius = 15;
 
     //--------------------FLAGS--------------------
     public static boolean shouldOpenMenu = true;

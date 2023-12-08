@@ -45,7 +45,7 @@ public class Breakout extends GraphicsProgram {
                 handleCollisions();
                 paddle.move();
                 handleBallPresence();
-                pause(2);
+                pause(0.5);
             }
 
             //win condition check
@@ -339,7 +339,7 @@ public class Breakout extends GraphicsProgram {
         Variables.shouldRestart = false;
         gameStarted = false;
         Variables.shouldOpenLevel = false;
-        Variables.lives = Variables.level;
+        Variables.lives = Variables.getLives();
     }
 
     /**
@@ -349,8 +349,8 @@ public class Breakout extends GraphicsProgram {
     private void setDefaultValuesForLevel(int level){
         switch(level) {
             case 1:
-                Variables.rows = 1;
-                Variables.bricksPerRow = 1;
+                Variables.rows = 3;
+                Variables.bricksPerRow = 3;
                 Variables.lives = 5;
                 Variables.level = 1;
                 break;
@@ -361,23 +361,11 @@ public class Breakout extends GraphicsProgram {
                 Variables.level = 2;
                 break;
             case 3:
-                Variables.rows = 10;
-                Variables.bricksPerRow = 10;
+                Variables.rows = 1;
+                Variables.bricksPerRow = 1;
                 Variables.lives = 1;
                 Variables.level = 3;
                 break;
         }
     }
 }
-
-/*
-    Проблема - коли намагаюсь перевірити чи мʼяч поза екраном, перевірка спрацьовує кожен тік.
-    Вирішення - перестворити мʼячик замість того щоб рухати його.
-    Проблема - мʼячик застрягає в платформі і стінах.
-    Проблема - мʼячик вдаряється об текст
-    Вирішення - ігнорувати цей випадок у перевірці колізій
-    Проблема - цеглинки не малюються якщо рядів менше пʼяти
-    Вирішення - через цей рядок вони завжди були чорними
-                nrow /= colorRows;
-
- */

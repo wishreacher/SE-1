@@ -18,7 +18,7 @@ public class CopyBAK extends ConsoleProgram {
             String destinationFileName = readLine("Enter the new file name: ");
 
             try {
-                copyFile(sourceFileName, destinationFileName);
+                copyFile(sourceFileName, destinationFileName + ".bak");
                 println("File copied successfully to " + destinationFileName);
             } catch (Exception e) {
                 e.printStackTrace();

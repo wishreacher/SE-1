@@ -9,7 +9,7 @@ import acm.program.ConsoleProgram;
 import java.io.*;
 
 public class Encryption extends ConsoleProgram {
-    int shift = 3;
+    int shift = 333;
     public void run(){
         while(true){
             getConsole().clear();

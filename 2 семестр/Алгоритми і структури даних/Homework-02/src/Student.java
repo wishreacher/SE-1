@@ -9,6 +9,6 @@ public class Student {
         this.averageGrade = grade;
     }
 
-    public String name = "";
+    public String name = "default";
     public int averageGrade = 0;
 }

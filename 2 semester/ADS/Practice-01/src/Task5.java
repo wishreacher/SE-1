@@ -10,14 +10,14 @@ public class Task5 {
         System.out.println("Generated matrix: ");
         SillyUtils.printArray(matrix);
         System.out.println();
+        System.out.println("Sum of negative odd elements in each column:");
         SillyUtils.printArray(sumOfNegativeOddElements(matrix));
         System.out.println();
         System.out.println();
+        System.out.println("Matrix with columns sorted by sum of negative odd elements:");
         SillyUtils.printArray(sortColumnsBySumOfNegativeOddElements(matrix));
         System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        System.out.println("Sum of columns with negative elements:");
         printSumOfColumnsWithNegativeElements(matrix);
     }
 

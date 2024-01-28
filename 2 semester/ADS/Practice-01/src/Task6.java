@@ -49,14 +49,14 @@ public class Task6 {
     public void addGrade(int grade) {
         if(grades == null){
             int[] newGrades = new int[1];
-            newGrades[0] = grade;
+            newGrades[0] = boundNumber(grade);
             grades = newGrades;
         } else{
             int[] newGrades = new int[grades.length + 1];
             for (int i = 0; i < grades.length; i++) {
                 newGrades[i] = grades[i];
             }
-            newGrades[grades.length] = grade;
+            newGrades[grades.length] = boundNumber(grade);
             grades = newGrades;
         }
     }
@@ -67,7 +67,7 @@ public class Task6 {
         System.out.println("Average: " + getAverage());
         System.out.println("Amount of nerds: " + amountOfNerds());
         System.out.println("Amount of suckers: " + amountOfSuckers());
-        System.out.println("Amount of vidpeakno: " + getVidpeakno());
+        System.out.println("Amount of vidminno: " + getVidminno());
         System.out.println("Amount of dobre: " + getDobre());
         System.out.println("Amount of zadovilno: " + getZadovilno());
         System.out.println("Amount of nezadovilno: " + getNezadovilno());
@@ -123,7 +123,7 @@ public class Task6 {
         return nerds;
     }
 
-    public int getVidpeakno() {
+    public int getVidminno() {
         int n = 0;
         for (int i = 0; i < grades.length; i++) {
             if (91 <= grades[i] && grades[i] <= 100) {
@@ -208,5 +208,9 @@ public class Task6 {
             s.append(array[i]).append("\n");
         }
         return s.toString();
+    }
+
+    public static int boundNumber(int num) {
+        return Math.min(Math.max(num, 0), 100);
     }
 }

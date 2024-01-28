@@ -1,7 +1,7 @@
 public class Task6Tester {
     public static void main(String[] args) {
         Task6 grades = new Task6();
-        System.out.println("Enter grades");
+        System.out.println("Enter grades. To stop enter any negative number.");
 
         while(true){
             int input = DataInput.getInt();

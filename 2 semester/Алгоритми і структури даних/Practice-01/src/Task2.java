@@ -5,7 +5,7 @@
 
 import java.util.Random;
 
-public class AverageValue {
+public class Task2 {
     public static void main(String[] args){
         Random random = new Random();
         System.out.println("Generated array: ");
@@ -19,6 +19,6 @@ public class AverageValue {
     }
 
     public static double getAverage(int[] arr){
-        return (double)ElementSum.sum(arr) / arr.length;
+        return (double) Task1.sum(arr) / arr.length;
     }
 }

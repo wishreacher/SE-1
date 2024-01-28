@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import static java.lang.Integer.valueOf;
 
-public class MagicSquareMain {
+public class Task4 {
     public static void main(String[] args){
         System.out.println("Enter square size");
         int size = readInt();

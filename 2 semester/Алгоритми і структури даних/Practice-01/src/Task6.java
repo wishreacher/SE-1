@@ -14,22 +14,14 @@
     кількість студентів з оцінкою "добре"
     кількість студентів з оцінкою "задовільно"
     кількість студентів з оцінкою "не задовільно"
-    вивести всі оцінки (метод toString())
+    TODO вивести всі оцінки (метод toString())
     Оцінки задаються від 0 до 100. "0-59" - незадовільно, "60-70" - задовільно, "71-90" - добре, "91-100" - відмінно.
 
     Написати клас-тестер із функцією main, в ході якої створюється об'єкт класу StudentsGrades,
     зчитуються з клавіатури оцінки студентів та друкуються усі вищеперераховані статистичні дані.
-
-    File: StudentGrades.java
-    Author: Федорич Володимир
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-
-public class StudentGrades {
+public class Task6 {
     private int[] grades;
 
     enum sortType {
@@ -71,7 +63,7 @@ public class StudentGrades {
 
     public void printInfo(){
         System.out.println("Max Grade: " + getMaxGrade(grades));
-        System.out.println("peak Grade: " + getMinGrade(grades));
+        System.out.println("Min Grade: " + getMinGrade(grades));
         System.out.println("Average: " + getAverage());
         System.out.println("Amount of nerds: " + amountOfNerds());
         System.out.println("Amount of suckers: " + amountOfSuckers());

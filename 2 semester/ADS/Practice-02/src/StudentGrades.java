@@ -30,6 +30,9 @@
  */
 
 public class StudentGrades {
+    StudentGrades(){
+        grades = new int[0];
+    }
     private int[] grades;
 
     enum sortOrder {
@@ -40,6 +43,7 @@ public class StudentGrades {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
+        s.append("Grades: ---------- \n\n");
         for (int i = 0; i < grades.length; i++) {
             s.append(grades[i]).append("\n");
         }
@@ -70,6 +74,10 @@ public class StudentGrades {
     }
 
     public void printInfo(){
+        if(grades == null){
+            System.out.println("No grades");
+            return;
+        }
         System.out.println("Max Grade: " + Practice1Getters
                 .getMaxGrade(grades));
         System.out.println("Min Grade: " + Practice1Getters
@@ -111,6 +119,11 @@ public class StudentGrades {
     }
 
     public void sort(int[] array, sortOrder order){
+        if(isSorted(array, order)){
+            System.out.println("Array is already sorted!");
+            return;
+        }
+
         boolean didSwap = true;
 
         switch(order){

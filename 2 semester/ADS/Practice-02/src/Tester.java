@@ -6,7 +6,7 @@ public class Tester {
 
         System.out.println("Enter grades to add to the array\n-------------------");
         gradeInput(grades);
-        grades.printInfo();
+        //grades.printInfo();
 
 
         while(true){
@@ -25,52 +25,36 @@ public class Tester {
                         System.out.println("Student array is empty");
                         continue;
                     }
-                    grades.sort(grades.getGrades(),askForSortOrder());
+                    switch(askForSortOrder()){
+                        case 1 -> {
+                            grades.sort(grades.getGrades(), StudentGrades.sortOrder.ASCENDING);
+                        }
+                        case 2 ->{
+                            grades.sort(grades.getGrades(), StudentGrades.sortOrder.DESCENDING);
+                        }
+                    }
                 }
             }
+            //System.out.println(grades);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        System.out.println("Enter grades. To stop enter any negative number.");
-
-        while(true){
-            int input = DataInput.getInt();
-            if(input >= 0){
-                grades.addGrade(input);
-            } else{
-                break;
-            }
-        }
-
-        grades.printInfo();
-        System.out.println(grades); // This is the toString() method that we overrode in Task6.java
-
+        //grades.printInfo();
+         // This is the toString() method that we overrode in Task6.java
 //        System.out.println(grades.sort(grades.getGradesArray(), Task6.sortType.ascending));
 //        System.out.println(grades.sort(grades.getGradesArray(), Task6.sortType.descending));
     }
 
     public static void gradeInput(StudentGrades grades) throws IOException {
         System.out.println("Entering student grade");
-        if(grades.getGrades().length == 0){
+        if(grades == null && grades.getGrades().length == 0){
             askForStudentGrade(grades);
         }
         while(true){
             System.out.println("1 - add a new student. 0 - stop adding");
             int choice = DataInput.getInt();
             if(choice == 0){
+                System.out.println(grades);
+                System.out.println("-------------------");
                 break;
             } else if(choice == 1){
                 askForStudentGrade(grades);

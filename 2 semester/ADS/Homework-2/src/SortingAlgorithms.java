@@ -8,7 +8,7 @@ public class SortingAlgorithms {
         Ми починаємо з найпершого елементу масиву, визначаємо його як найменший елемент. Далі ми рухаємось через весь масив у пошуках нового мінімуму.
         Коли знаходимо нове мінімальне число - міняємо його місцями з тим елементом від якого починали пошук та повторюємо це поки не закінчиться масив.
     */
-    public static void selectionSort(Student[] array, sortOrder order){
+    public static void selectionSortByGrade(Student[] array, sortOrder order){
         switch(order){
             case ASCENDING -> {
                 for(int i = 0; i < array.length - 1; i++){
@@ -34,6 +34,33 @@ public class SortingAlgorithms {
                         }
                     }
                     swap(array, i, indexMax);
+                }
+            }
+        }
+    }
+
+    public static void selectionSortByName(Student[] array, sortOrder order){
+        switch(order){
+            case ASCENDING -> {
+                for(int i = 0; i < array.length - 1; i++){
+                    int indexMin = i;
+                    for(int j = i + 1; j < array.length; j++){
+                        if(array[j].name.compareToIgnoreCase(array[i].name) < 0){
+                            indexMin = j;
+                        }
+                    }
+                    swap(array, i, indexMin);
+                }
+            }
+            case DESCENDING -> {
+                for(int i = 0; i < array.length - 1; i++){
+                    int indexMin = i;
+                    for(int j = i + 1; j < array.length; j++){
+                        if(array[j].name.compareToIgnoreCase(array[i].name) > 0){
+                            indexMin = j;
+                        }
+                    }
+                    swap(array, i, indexMin);
                 }
             }
         }

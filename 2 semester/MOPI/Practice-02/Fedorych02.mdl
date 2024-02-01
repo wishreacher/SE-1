@@ -1,0 +1,32 @@
+'less(x, y) = 1 if x < y, 0 if x >= 0
+Computer less : 2;
+01 : Z(4)        'r4 = 0 CONST
+02 : S(5)        'r5 = 1 CONST
+03 : J(1,4,76)   'return TRUE
+04 : J(2,4,78)   'return FALSE
+05 : T(1,7)      'START SUBTRACTING r1
+06 : Z(1)       
+07 : Z(6)       
+08 : J(6,7,14)   'OUT
+09 : S(6)        '6++
+10 : J(6,7,14)   'OUT
+11 : S(6)        '6++
+12 : S(1)        '1++
+13 : J(1,1,10)   ' goto a | END SUBTRACTING r1
+14 : J(1,4,76)   'return true
+15 : T(2,9)      'START SUBTRACTING r2
+16 : Z(2)       
+17 : Z(8)       
+18 : J(8,9,24)   'OUT
+19 : S(8)        's  r2 := r2+1
+20 : J(8,9,24)   'OUT
+21 : S(8)        '8++
+22 : S(2)        '2++
+23 : J(2,2,20)   'END SUBTRACTING r2
+24 : J(2,4,78)   'return false
+25 : J(1,1,5)    'main loop
+26 : T(5,1)      'TRUE
+27 : J(1,1,80)   'EXIT
+28 : T(4,1)      'FALSE
+29 : J(1,1,80)   'EXIT
+end less

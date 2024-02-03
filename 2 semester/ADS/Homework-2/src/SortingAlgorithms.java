@@ -45,7 +45,7 @@ public class SortingAlgorithms {
                 for(int i = 0; i < array.length - 1; i++){
                     int indexMin = i;
                     for(int j = i + 1; j < array.length; j++){
-                        if(array[j].name.compareToIgnoreCase(array[i].name) < 0){
+                        if(compareStrings(array[j].name, array[i].name) < 0){
                             indexMin = j;
                         }
                     }
@@ -56,7 +56,7 @@ public class SortingAlgorithms {
                 for(int i = 0; i < array.length - 1; i++){
                     int indexMin = i;
                     for(int j = i + 1; j < array.length; j++){
-                        if(array[j].name.compareToIgnoreCase(array[i].name) > 0){
+                        if(compareStrings(array[j].name, array[i].name) > 0){
                             indexMin = j;
                         }
                     }
@@ -64,6 +64,23 @@ public class SortingAlgorithms {
                 }
             }
         }
+    }
+
+    public static int compareStrings(String str1, String str2) {
+        String lowerStr1 = str1.toLowerCase();
+        String lowerStr2 = str2.toLowerCase();
+        int len1 = lowerStr1.length();
+        int len2 = lowerStr2.length();
+        int lim = Math.min(len1, len2);
+
+        for (int k = 0; k < lim; k++) {
+            char c1 = lowerStr1.charAt(k);
+            char c2 = lowerStr2.charAt(k);
+            if (c1 != c2) {
+                return c1 - c2;
+            }
+        }
+        return len1 - len2;
     }
 
     public static void swap(Student[] array, int a, int b){

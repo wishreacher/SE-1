@@ -4,57 +4,40 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public final class DataInput {
-    private static Scanner scanner = new Scanner(System.in);
-    public static Double getDouble() throws IOException {
-        String s = "";
-        try {
-            s = getString();
-            Double value = Double.valueOf(s);
-            return value;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NumberFormatException e) {
-            System.out.println("Input error. Please enter an double value");
-            getDouble();
+    public static Long getLong(){
+        while(true) {
+            try {
+                String s = getString();
+                Long value = Long.valueOf(s);
+                return value;
+            } catch(IOException | NumberFormatException e) {
+                System.out.println("Wrong input! Please enter a valid long integer.");
+            }
         }
-        return 0.0;
     }
 
     public static char getChar() throws IOException{
-        try{
+        while(true){
             String s = getString();
-            if(s.length() > 1){
-                System.out.println("Input error. Please enter a single character");
-                getChar();
+            if(s.length() == 0){
+                return s.charAt(0);
+            } else{
+                System.out.println("Wrong input. Please enter one character");
             }
-            return s.charAt(0);
-        } catch(IOException e){
-            e.printStackTrace();
+
         }
-        return 0;
     }
 
-//    public static Integer getInt(){
-//        String s = "";
-//        try {
-//            s = getString();
-//            Integer value = Integer.valueOf(s);
-//            return value;
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (NumberFormatException e) {
-//            System.out.println("Input error. Please enter an integer");
-//            getInt();
-//        }
-//        return 0;
-//    }
-
-    public static int getInt() {
-        while (!scanner.hasNextInt()) {
-            System.out.println("That's not a number! Try again:");
-            scanner.next();
+    public static Integer getInt(){
+        while(true) {
+            try {
+                String s = getString();
+                Integer value = Integer.valueOf(s);
+                return value;
+            } catch(IOException | NumberFormatException e) {
+                System.out.println("Wrong input! Please enter a valid integer.");
+            }
         }
-        return scanner.nextInt();
     }
 
     public static String getString() throws IOException{

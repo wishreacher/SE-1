@@ -35,13 +35,8 @@ public class Tester {
                     }
                 }
             }
-            //System.out.println(grades);
+            System.out.println(grades);
         }
-
-        //grades.printInfo();
-         // This is the toString() method that we overrode in Task6.java
-//        System.out.println(grades.sort(grades.getGradesArray(), Task6.sortType.ascending));
-//        System.out.println(grades.sort(grades.getGradesArray(), Task6.sortType.descending));
     }
 
     public static void gradeInput(StudentGrades grades) throws IOException {

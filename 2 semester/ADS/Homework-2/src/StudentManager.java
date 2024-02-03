@@ -116,7 +116,7 @@ public class StudentManager {
         grade = DataInput.getInt();
 
         Student newStudent = new Student();
-        newStudent.fillStudents(name, grade);
+        newStudent.fillStudent(name, grade);
 
         students = addValueToArray(newStudent, students);
     }

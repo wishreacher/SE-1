@@ -1,9 +1,138 @@
+'expr1(x, y) = y + 3
+Computer expr1 : 2;
+01 : T(2,1)      'r1 = r2
+02 : Z(2)        'r2 = 0
+03 : S(3)        'r3 += 1
+04 : S(3)        'r3 += 1
+05 : S(3)        'r3 += 1
+06 : J(2,3,10)   'Завершення програми
+07 : S(2)        'r2 += 1
+08 : S(1)        'r1 += 1
+09 : J(1,1,6)    'Jump to add 1
+end expr1
+
+'expr(x, y, z) = z - (x + y)
+Computer expr2 : 3;
+01 : Z(4)        'r4 = 0
+02 : J(2,4,6)    'addition complete
+03 : S(1)        'r1++
+04 : S(4)        'r4++
+05 : J(1,1,2)    'loop
+06 : Z(2)        'r2 = 0
+07 : J(1,3,11)   'substraction complete
+08 : S(1)        'r1++
+09 : S(2)        'r2++
+10 : J(1,1,7)    'loop
+11 : T(2,1)      'move result to r1
+end expr2
+
+'expr3(x, y) = 2^x + 3*y
+Computer expr3 : 2;
+01 : T(2,3)      '====
+02 : Z(4)        '====
+03 : J(3,4,7)    '====
+04 : S(2)        '====
+05 : S(4)        '====
+06 : J(1,1,3)    'loop
+07 : Z(4)        '====
+08 : J(4,3,12)   '====
+09 : S(2)        '====
+10 : S(4)        '====
+11 : J(1,1,8)    'loop
+12 : Z(3)        '====
+13 : Z(4)        '====
+14 : J(1,10,35)  '====
+15 : S(8)        '====
+16 : J(8,1,20)   '====
+17 : S(8)        '====
+18 : S(3)        '====
+19 : J(1,1,16)   'loop
+20 : S(5)        '====
+21 : S(5)        '====
+22 : S(6)        '====
+23 : S(6)        '====
+24 : J(3,4,33)   '====
+25 : J(6,7,29)   '====
+26 : S(5)        '====
+27 : S(7)        '====
+28 : J(1,1,25)   'loop
+29 : Z(7)        '====
+30 : T(5,6)      '====
+31 : S(4)        '====
+32 : J(1,1,24)   'loop
+33 : T(5,1)      '====
+34 : J(1,1,37)   'loop
+35 : Z(1)        '====
+36 : S(1)        '====
+37 : Z(3)        '====
+38 : Z(4)        '====
+39 : J(2,3,43)   '====
+40 : S(1)        '====
+41 : S(3)        '====
+42 : J(1,1,39)   'loop
+end expr3
+
+'expr4(x, y) = (x - y) / 3
+Computer expr4 : 2;
+01 : Z(4)        ' r4 = 0 CONST
+02 : S(5)        'l r5 = 1 CONST
+03 : T(1,10)     'l r10 = initial x
+04 : T(2,11)     'l r11 = initial y
+05 : J(1,4,31)   'l return FALSE
+06 : J(2,4,29)   'l return TRUE
+07 : T(1,7)      'l START SUBTRACTING r1
+08 : Z(1)        'l 
+09 : Z(6)        'l 
+10 : J(6,7,16)   'l OUT
+11 : S(6)        'l 6++
+12 : J(6,7,16)   'l OUT
+13 : S(6)        'l 6++
+14 : S(1)        'l 1++
+15 : J(1,1,12)   'l  goto a | END SUBTRACTING r1
+16 : J(1,4,31)   'l return false
+17 : T(2,9)      'l START SUBTRACTING r2
+18 : Z(2)        'l 
+19 : Z(8)        'l 
+20 : J(8,9,26)   'l OUT
+21 : S(8)        'l s  r2 := r2+1
+22 : J(8,9,26)   'l OUT
+23 : S(8)        'l 8++
+24 : S(2)        'l 2++
+25 : J(2,2,22)   'l END SUBTRACTING r2
+26 : J(2,4,29)   'l return true
+27 : J(1,2,29)   'l return true
+28 : J(1,1,7)    'l main loop
+29 : T(5,1)      'l TRUE
+30 : J(1,1,33)   'l EXIT
+31 : T(4,1)      'l FALSE
+32 : J(1,1,33)   'l EXIT
+33 : J(1,4,51)   'x < y, return 0 || CHANGE JUMP
+34 : Z(3)        'subtraction r2 := 0       - r3 -- 0, ..., x-y START SUBTRACTING
+J(10,11,39) 's if (r10=r11) then goto 6
+36 : S(11)       's  r11 := r11+1
+37 : S(3)        's  r3 := r3+1
+38 : J(1,1,35)   's  goto 2
+39 : T(3,1)      's r1 := r3 END SUBSTRACTING
+40 : T(1,3)      'divide3Quatient  r3 := r1   r3 -- x
+41 : Z(1)        'd  r1 := 0     r1 -- 0, ... , x div 3
+42 : Z(2)        'd  r2 := 0     r2 -- 0, ... , x 
+43 : J(2,3,52)   'd  a: if (r2 = r3) then goto ! 
+44 : S(2)        'd   r2 := r2+1 
+45 : J(2,3,52)   'd   if (r2 = r3) then goto ! 
+46 : S(2)        'd   r2 := r2+1 
+47 : J(2,3,52)   'd   if (r2 = r3) then goto ! 
+48 : S(2)        'd   r2 := r2+1 
+49 : S(1)        'd   r1 := r1+1 
+50 : J(1,1,43)   'd   goto a
+51 : Z(1)       
+end expr4
+
 'less(x, y) = 1 if x < y, 0 if x >= 0
-Computer less : 2;
+Computer lessFIXED : 2;
 01 : Z(4)        'r4 = 0 CONST
 02 : S(5)        'r5 = 1 CONST
-03 : J(1,4,76)   'return TRUE
-04 : J(2,4,78)   'return FALSE
+03 : J(1,4,27)   'return TRUE
+04 : J(2,4,29)   'return FALSE
 05 : T(1,7)      'START SUBTRACTING r1
 06 : Z(1)       
 07 : Z(6)       
@@ -13,7 +142,7 @@ Computer less : 2;
 11 : S(6)        '6++
 12 : S(1)        '1++
 13 : J(1,1,10)   ' goto a | END SUBTRACTING r1
-14 : J(1,4,76)   'return true
+14 : J(1,4,27)   'return true
 15 : T(2,9)      'START SUBTRACTING r2
 16 : Z(2)       
 17 : Z(8)       
@@ -23,10 +152,58 @@ Computer less : 2;
 21 : S(8)        '8++
 22 : S(2)        '2++
 23 : J(2,2,20)   'END SUBTRACTING r2
-24 : J(2,4,78)   'return false
-25 : J(1,1,5)    'main loop
-26 : T(5,1)      'TRUE
-27 : J(1,1,80)   'EXIT
-28 : T(4,1)      'FALSE
-29 : J(1,1,80)   'EXIT
-end less
+24 : J(2,4,29)   'return false
+25 : J(1,2,29)   'return false
+26 : J(1,1,5)    'main loop
+27 : T(5,1)      'TRUE
+28 : J(1,1,81)   'EXIT
+29 : T(4,1)      'FALSE
+30 : J(1,1,81)   'EXIT
+end lessFIXED
+
+'
+Computer remain : 2;
+01 : T(2,10)     'y const
+02 : T(1,11)     'x const
+03 : Z(3)        'subtraction r2 := 0       - r3 -- 0, ..., x-y 
+04 : T(10,2)    
+05 : T(11,1)    
+06 : J(1,2,11)   's if (r1=r2) then goto 6
+07 : J(1,3,42)   'false
+08 : S(2)        's  r2 := r2+1
+09 : S(3)        's  r3 := r3+1
+10 : J(1,1,6)    's  goto 2
+11 : T(3,1)      's r1 := r3     
+12 : Z(4)        'lessFIXED r4 = 0 CONST  START | LESS
+13 : S(5)        'l r5 = 1 CONST
+14 : J(1,4,38)   'l return TRUE
+15 : J(2,4,42)   'l return FALSE
+16 : T(1,7)      'l START SUBTRACTING r1
+17 : Z(1)        'l 
+18 : Z(6)        'l 
+19 : J(6,7,25)   'l OUT
+20 : S(6)        'l 6++
+21 : J(6,7,25)   'l OUT
+22 : S(6)        'l 6++
+23 : S(1)        'l 1++
+24 : J(1,1,21)   'l  goto a | END SUBTRACTING r1
+25 : J(1,4,38)   'l return true
+26 : T(2,9)      'l START SUBTRACTING r2
+27 : Z(2)        'l 
+28 : Z(8)        'l 
+29 : J(8,9,35)   'l OUT
+30 : S(8)        'l s  r2 := r2+1
+31 : J(8,9,35)   'l OUT
+32 : S(8)        'l 8++
+33 : S(2)        'l 2++
+34 : J(2,2,31)   'l END SUBTRACTING r2
+35 : J(2,4,42)   'l return false
+36 : J(1,2,42)   'l return false
+37 : J(1,1,16)   'l main loop
+38 : T(5,1)      'l TRUE
+39 : T(3,11)     'JGAIUDGIUADG
+40 : J(1,1,3)    'loop
+41 : J(1,1,44)   'l EXIT
+42 : T(3,1)      'l FALSE
+43 : J(1,1,44)   'l EXIT
+end remain

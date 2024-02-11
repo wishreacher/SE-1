@@ -18,36 +18,38 @@ import java.io.IOException;
 public class StudentManager {
     static Student[] students = new Student[0];
     public static void main(String[] args) throws IOException {
-        System.out.println("Enter students to add to the array\n-------------------");
-        StudentsInput();
-        printStudentInfo(students);
-        while(true){
-            System.out.println("\n1 - add students, \n2 - sort by grade, \n3 - sort by name");
-            int choice = DataInput.getInt();
-            while(choice != 1 && choice != 2 && choice != 3){
-                System.out.println("Wrong input. Enter 1 or 2");
-                choice = DataInput.getInt();
-            }
-            switch (choice){
-                case 1 -> {
-                    StudentsInput();
-                }
-                case 2 ->{
-                    if(students.length == 0){
-                        System.out.println("Student array is empty");
-                        continue;
-                    }
-                    sortByGrade();
-                }
-                case 3 ->{
-                    if(students.length == 0){
-                        System.out.println("Student array is empty");
-                        continue;
-                    }
-                    sortByName();
-                }
-            }
-        }
+
+
+//        System.out.println("Enter students to add to the array\n-------------------");
+//        StudentsInput();
+//        printStudentInfo(students);
+//        while(true){
+//            System.out.println("\n1 - add students, \n2 - sort by grade, \n3 - sort by name");
+//            int choice = DataInput.getInt();
+//            while(choice != 1 && choice != 2 && choice != 3){
+//                System.out.println("Wrong input. Enter 1 or 2");
+//                choice = DataInput.getInt();
+//            }
+//            switch (choice){
+//                case 1 -> {
+//                    StudentsInput();
+//                }
+//                case 2 ->{
+//                    if(students.length == 0){
+//                        System.out.println("Student array is empty");
+//                        continue;
+//                    }
+//                    sortByGrade();
+//                }
+//                case 3 ->{
+//                    if(students.length == 0){
+//                        System.out.println("Student array is empty");
+//                        continue;
+//                    }
+//                    sortByName();
+//                }
+//            }
+//        }
     }
 
     private static void sortByName() {

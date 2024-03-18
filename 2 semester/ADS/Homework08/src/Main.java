@@ -58,9 +58,9 @@ public class Main {
 
         System.out.println("Total words: " + totalWords);
         System.out.println("Unique words: " + words.size());
-        for (Word word : words) {
-            System.out.println(word.text + ": " + word.count);
-        }
+//        for (Word word : words) {
+//            System.out.println(word.text + ": " + word.count);
+//        }
     }
 
     private static Word findWord(List<Word> words, String text) {

@@ -29,8 +29,8 @@ public class CacheFactorial {
                 }
             }
             for(int i = lastCalculatedIndex + 1; i <= n; i++){
-                System.out.println("Calculating factorial for " + i);
                 cache[i] = cache[i - 1] * i;
+                System.out.println("Factorial for " + i + " is " + cache[i]);
             }
             calculatedFactorialSteps = n;
             return cache[n];

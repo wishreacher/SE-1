@@ -1,18 +1,24 @@
-a: DW -5
-b: DW -2
+;(1B: 1.5 бали) Визначити двовимірний масив 10x20. 
+;Елемент масиву - теж слово. Записати значення Y*(X+5) у 
+;елементи цього масиву з використанням ret/call. 
+;X - рядок, Y - стовпчик.
 
-start:
-mov ax, word a
-mov bx, word b
+.model small
+.stack 100h
 
-add ax, bx
+.data
+    array dw 10*20 dup(0) ; define array and initialize it with 0
 
-; Check if ax is negative
-test ax, ax
-jns end
 
-; If here, ax is negative. Convert it to its absolute value.
-not ax
-add ax, 1 ;1's complement
+.code 
+    main PROC
+        mov ax, @data
+        mov ds, ax
 
-end:
+        mov ch, 0 ; initialize counter for x
+        mov cl, 0 ; initialize counter for y
+
+        int 21h ; call procedure to fill array with values
+
+main ENDP
+END main

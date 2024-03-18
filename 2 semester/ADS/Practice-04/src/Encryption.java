@@ -50,6 +50,7 @@ public class Encryption {
     }
 
     public static String encrypt(String s, int n){
+        n = n % 26; // For English alphabet
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < s.length(); i++){
             char c = s.charAt(i);

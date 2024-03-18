@@ -1,0 +1,103 @@
+'Дз 6
+Calculus calculus6
+   'succ n = n+1
+   succ = \ x s z . s (x s z) ;
+   'id (x) = x
+   id = \ x . x ;
+   'addition x y = x+y
+   addition = \ x y . x succ y ;
+   'multiplication x y = x*y
+   multiplication = \ x y f . x (y f) ;
+   'multiplication x y = x*y
+   multiplication2 = \ x f . x (2 f);
+   '-- true    ===Boolean
+   true = \ s z . s ;
+   '--false  ===Boolean
+   false = \ s z . z ;
+   '--and  ===Boolean
+   and = \ x y . x y false;
+   '--or  ===Boolean 
+   or = \ x y . x true y ;
+   '--not  ===Boolean
+   not = \ x . x false true  ;
+   'isZero(0 )= true   isZero(n) = false n > 0
+   isZero = \ x . x false not false;
+   '  -- Pair
+   pair = \f s x . x f s;
+   '  -- Pair
+   fst = \p . p true;
+   '  -- Pair
+   snd = \p . p false;
+   'predS (n,n-1) = (n+1,n)
+   predS = \p . pair (succ (fst p)) (fst p)  ;
+   'pred(0) = 0, pred(n) = n-1, n>0
+   pred = \n.snd (n predS (pair 0 0));
+   'greatEqual(x,y) = true <=> x>=y
+   greatEqual = \x y . isZero (x pred y);
+   'subtract x y  = if x>=y then m–n else 0
+   substract = \x y . y pred x;
+   'subtract x y  = if x>=y then m–n else 0
+   lessThan = \m. \n. (m (pred n)) true;
+   '-- Fix point
+   fix = \f . (\x.f(x x)) (\x.f(x x));
+   '--  [n+(n-1)+...+1+0]
+   rec = \r n . isZero n 0 (n succ (r (pred n)));
+   '-- Рекурсивно  [n+(n-1)+...+1+0]
+   recSum = fix rec;
+   'is equal
+   isEqual = \m. \n. (m (\x. false) (n (\x. false) true)) ;
+   ' --empty ==List
+   empty = \ f x . x ;
+   'even numbers
+   even = \n. isZero (n pred (succ (succ 0)));
+   'odd numbers
+   odd = \n. not (even n);
+   '[1]
+   list1 = \ c z . c 1 z ;
+   'empty list
+   nil = \c.\n.n;
+   '[2,0,2]
+   list3 = \ c z . c 2 (c 0 (c 2 z)) ;
+   '[1,4,8,8]
+   list5 = \ c z . c 1 (c 4 (c 8 (c 8 z)));
+   ' --cons h [a1,...,an] ==[h,a1,...an] -- add element
+   cons = \ h t c n . c h (t c n) ;
+   'test list 1
+   listtest1 = cons 1 (cons 2 ( cons 8 (cons 4 (cons 5 (cons 2 empty) ))));
+   ' --[1,2,3,4,5,6] == 
+   list16 = cons 1 (cons 2 ( cons 3 (cons 4 (cons 5 (cons 6 empty) ))));
+   ' --head xs = List - fist 
+   head = \ l . l (\ h t . h) false;
+   ' --empty xs == true <> l==empty = List  
+   isempty = \ l . l (\ a b . false) true;
+   'tailS b (s1,s2) = ((b:s1),s1)
+   tailS = \b p. pair  (cons b (fst p) ) (fst p)  ;
+   '-- head (c:xs) = xs
+   tail = \w. snd (w tailS (pair empty empty));
+   'if
+   if = \x y z . x y z;
+   'else
+   else = \x y z . z x y;
+   'less(x, y)
+   less = \ x y .not(isZero(x pred y));
+   'fibonacci
+   FibB = \ r n . if (isZero (substract n 1)) 1 (addition (r (pred n))  (r (pred(pred n))) );
+   'fibonacci recursive
+   fibRec = fix FibB;
+   'min(x,y) = if x<y then x else y
+   min = \x y. if (less x y) x y;
+   'Y
+   Y = \f. (\x. f (x x)) (\x. f (x x));
+   'factRec
+   factRec = \f. \n. if (isZero n) 1 (multiplication n (f (pred n)));
+   'fact(x) = x! = 1*2*…*x
+   fact = Y factRec;
+   'remain (x,y) = x mod y 
+   remain = Y (\r. \x. \y. if (less x y) x (r (substract x y) y));
+   'length [a1, a2,…, an] = n 
+   length = \xs. (fix (\f. \l. if (isempty l) false (succ (f (tail l))))) xs;
+   'append ([a1, a2,…, an],[b1, b2,…, bm])  = [a1, .., an,b1, .., bm 
+   append = \list1. \list2. (fix (\f. \l1. \l2. if (isempty l1) l2 (cons (head l1) (f (tail l1) l2)))) list1 list2;
+   'filter (p, [a1, a2,…, an]) = [ ai | 1 ≤ i ≤ n, p(ai) = true]
+   filter = \p lst. lst (\x xs. if (p x) (cons x xs) xs) empty;
+end calculus6

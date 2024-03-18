@@ -1,0 +1,78 @@
+'Базовий набiр  - лекцiя
+Calculus baseList
+   'id (x) = x
+   id = \ x . x ;
+   'succ n = n+1
+   succ = \ x s z . s (x s z) ;
+   'addition x y = x+y
+   addition = \ x y . x succ y ;
+   'multiplication x y = x*y
+   multiplication = \ x y f . x (y f) ;
+   '-- true    ===Boolean
+   true = \ s z . s ;
+   '--false  ===Boolean
+   false = \ s z . z ;
+   '--and  ===Boolean
+   and = \ x y . x y false;
+   '--or  ===Boolean 
+   or = \ x y . x true y ;
+   '--not  ===Boolean
+   not = \ x . x false true  ;
+   'isZero(0 )= true   isZero(n) = false n > 0
+   isZero = \ x . x false not false;
+   '???
+   zeronew = \ x . x (\ y . false) true;
+   '  -- Pair
+   pair = \f s x . x f s;
+   '  -- Pair
+   fst = \p . p true;
+   '  -- Pair
+   snd = \p . p false;
+   'predS (n,n-1) = (n+1,n)
+   predS = \p . pair (succ (fst p)) (fst p)  ;
+   predSS = \p z . z (succ (p true) ) (p true);
+   'pred(0) = 0, pred(n) = n-1, n>0
+   pred = \n.snd (n predS (pair 0 0));
+   subtract = \x y . y pred x;
+   greater = \x y . not (isZero (subtract x y));
+   exp = \ x y . y x;
+   '-- Fix point
+   fix = \f . (\x.f(x x)) (\x.f(x x));
+   '--  [n+(n-1)+...+1+0]
+   rec = \r n . isZero n 0 (n succ (r (pred n)));
+   '-- Рекурсивно  [n+(n-1)+...+1+0]
+   recSum = fix rec;
+   '\r n . isZero n 0 (n succ (r (pred n)))
+   recS = fix rec;
+   ' --empty ==List
+   empty = \ f x . x ;
+   '[1]
+   list1 = \ c z . c 1 z ;
+   '[2,0,2]
+   list3 = \ c z . c 2 (c 0 (c 2 z)) ;
+   ' --cons h [a1,...,an] ==[h,a1,...an] -- add element
+   cons = \ h t c n . c h (t c n) ;
+   ' --[1,2,3,4,5,6] == 
+   list16 = cons 1 (cons 2 ( cons 3 (cons 4 (cons 5 (cons 6 empty) ))));
+   ' --head xs = List - fist 
+   head = \ l . l (\ h t . h) false;
+   ' --empty xs == true <> l==empty = List  
+   isempty = \ l . l (\ a b . false) true;
+   'tailS b (s1,s2) = ((b:s1),s1)
+   tailS = \b p. pair  (cons b (fst p) ) (fst p)  ;
+   '-- head (c:xs) = xs
+   tail = \w. snd (w tailS (pair empty empty));
+   'expr1(x, y) = y + 3
+   expr1 = \x y . y succ 3;
+   absDiff = \x y . addition (subtract x y) (subtract y x);
+   'expr2(x, y, z) = z - (x + y)
+   expr2 = \x y z . absDiff z (addition x y);
+   'less
+   less = \x y . greater y x;
+   'min(x, y)
+   min = \x y . greater x y y x;
+   'min(x, y)
+   expr3 = \x . addition (exp 3 x) (multiplication 2 x);
+   if = \ x y z . x y z;
+   div3 = \x. x (\f x. f (f (f x))) (\f x. f (f x));
+end baseList

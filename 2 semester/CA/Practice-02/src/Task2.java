@@ -9,7 +9,7 @@
 
 public class Task2 {
     public static void main(String[] args) {
-        System.out.println(signedRadixStringToLong("543", 16));
+        System.out.println(signedRadixStringToLong("255", 2));
     }
 
     public static long radixStringToLong(String str, int radix){

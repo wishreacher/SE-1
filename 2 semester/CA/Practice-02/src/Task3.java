@@ -12,28 +12,42 @@
 public class Task3 {
     public static void main(String[] args) {
         System.out.println(getNBit(0b0100, 3));
-        System.out.println(flipNBit(0b0110, 3));
-        System.out.println(countOnes(0b01110));
+        System.out.println(flipNBit(0b0010, 2));
+        System.out.println(countOnes(0xF0));
         System.out.println(isNegative(-10));
         System.out.println(isEven(2));
-        System.out.println(isEven(13));
     }
 
-    public static int getNBit(long value, int n){
+    private static boolean isEven(long value) {
+        return (value & 1) == 0; //перевіряємо останній біт
     }
 
-    public static long flipNBit(long value, int n){
+    private static boolean isNegative(int value) {
+        return (value & (1 << 31)) != 0; //перевіряємо знаковий біт
+    }
+
+    private static long countOnes(long value) {
+        if (value == 0) {
+            return value;
+        }
+
+        int count = 0;
+        while (value != 0) {
+            value &= (value - 1); //очищаємо ЛСД
+            count++;
+        }
+        return count;
+    }
+
+    private static long flipNBit(long value, int position) {
+        return value ^ getMask(position);
+    }
+
+    public static long getNBit(long value, int n){
+        return value & getMask(n);
     }
 
     private static long getMask(int n) {
-    }
-
-    public static int countOnes(long value){
-    }
-
-    public static boolean isNegative(int value){
-    }
-
-    public static boolean isEven(int value){
+        return 1L << n;
     }
 }

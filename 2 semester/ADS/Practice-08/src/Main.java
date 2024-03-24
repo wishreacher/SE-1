@@ -13,6 +13,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws IOException {
         Group group = new Group();
+
         while(true){
             System.out.println("Entering student's information ");
 

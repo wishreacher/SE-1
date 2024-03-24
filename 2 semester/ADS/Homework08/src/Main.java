@@ -56,6 +56,10 @@ public class Main {
 
         Collections.sort(words, (w1, w2) -> w1.text.compareTo(w2.text));
 
+        for(Word word : words){
+            System.out.println(word.text + ": " + word.count);
+        }
+
         System.out.println("Total words: " + totalWords);
         System.out.println("Unique words: " + words.size());
 //        for (Word word : words) {

@@ -107,7 +107,7 @@ public class NumberGame extends JFrame {
         for(int i = 0; i < a; i++){
             Random random = new Random();
 
-            int numOperations = random.nextInt(2) + 1; // 2 or 3 operations
+            int numOperations = random.nextInt(2) + 2; // 2 or 3 operations
             StringBuilder problem = new StringBuilder();
 
             // Generate the first number

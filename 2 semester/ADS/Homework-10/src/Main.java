@@ -9,7 +9,7 @@ public class Main extends JFrame {
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DefaultMutableTreeNode root = createTreeNode(new File("/Users/klirik"));
+        DefaultMutableTreeNode root = createTreeNode(new File("/Users/klirik/Documents"));
         JTree tree = new JTree(new DefaultTreeModel(root));
 
         add(tree);
